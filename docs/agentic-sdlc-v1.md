@@ -2,7 +2,7 @@
 
 **Status:** v1 for the owner, 2026-10-28. Built from `agentic-sdlc-draft-v0.md` (CTO), `agentic-sdlc-critique-reviewer.md`, `agentic-sdlc-critique-main.md` and `agentic-sdlc-sources.md` (specdriven.ai, Agentic Development Lifecycle, Spec Kit). Open decisions for the owner are in section 9.
 **Goal:** agents work as a team and autonomously as experts in their roles; what is built is fixed in a spec before code.
-**Scope (owner, 2026-10-28): this is for FUTURE projects built from TeamKit (formerly team-template). It does not change existing projects: nothing there is rewritten or reorganised because of this document.**
+**Scope (owner, 2026-10-28): this is for FUTURE projects built from TeamKit. It does not change existing projects: nothing there is rewritten or reorganised because of this document.**
 
 ---
 

@@ -1,6 +1,5 @@
 # Quickstart: a new project with a team of agents in 15 minutes
 
-
 For the owner (the human). Everything else in the template is written for the agents.
 
 ## Create a project with the generator

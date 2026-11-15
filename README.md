@@ -1,7 +1,5 @@
 # TeamKit: a project start kit for a team of Claude Code agents
 
-*Formerly `team-template` (renamed 2026-10-31).*
-
 **New here? Read [`QUICKSTART.md`](QUICKSTART.md) (15 minutes).**
 
 Copy this folder as the root of a new project. It gives you the working rules, the role briefs and the project addenda of a team of agent sessions (CTO, backend, frontend, mobile, MCP, product, independent reviewer, web QA) so you can start a full development team in a few steps.
