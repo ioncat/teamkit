@@ -33,7 +33,9 @@ DEFAULT_DOCS = {"research": "light", "mvp": "standard", "product": "full"}
 TRACKER_TEXT = {"linear": "Linear", "github": "GitHub Issues", "backlog": "`docs/delivery/BACKLOG.md`"}
 ALL_ROLES = ["cto", "backend", "frontend", "mobile", "mcp", "product", "qa-web", "code-reviewer", "analyst"]
 OPTIONAL_ROLES = ["analyst"]  # not in any preset; a project opts in with the answer "extra_roles"
-EXCLUDE_TOP = {".git", ".pytest_cache", "tools", "TEMPLATE_VERSION", "README.md", "QUICKSTART.md", "QUICKSTART.ru.md", "TEAMKIT_CHANGELOG.md"}
+EXCLUDE_TOP = {".git", ".pytest_cache", "tools", "TEMPLATE_VERSION", "README.md", "QUICKSTART.md", "QUICKSTART.ru.md", "TEAMKIT_CHANGELOG.md",
+               # not for a new project: TeamKit's own plugin files, its license, and local working folders
+               ".claude-plugin", "skills", "LICENSE", ".scratch", ".claude", ".worktrees"}
 EXCLUDE_DIRS = ("docs/knowledge/",)  # knowledge sources for TeamKit itself, not for new projects
 EXCLUDE_FILES = {"docs/template-design.md", "docs/SOURCES.md", "docs/ears-ste-decision.md", "docs/agentic-sdlc-v1.md", "docs/agentic-sdlc-draft-v0.md",
                  "docs/agentic-sdlc-sources.md", "docs/agentic-sdlc-critique-main.md", "docs/agentic-sdlc-critique-reviewer.md"}

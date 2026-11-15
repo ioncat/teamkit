@@ -60,6 +60,15 @@ class GeneratorTest(unittest.TestCase):
             self.assertIn("start from TeamKit", log.stdout)
 
 
+    def test_nothing_of_the_plugin_or_the_workshop_is_copied(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = generate(tmp, kind="web", stack="react", depth="mvp")
+            for gone in (".claude-plugin", "skills", "LICENSE", "tools"):
+                self.assertFalse((out / gone).exists(), gone)
+            # the generator makes these two itself; nothing else comes from the template's working folders
+            self.assertEqual(sorted(p.name for p in (out / ".scratch").iterdir()), ["README.md"])
+            self.assertEqual(sorted(p.name for p in (out / ".claude").iterdir()), ["work_mode"])
+
     def test_analyst_is_opt_in(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = generate(tmp, kind="web", stack="react", depth="product")

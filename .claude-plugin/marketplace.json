@@ -1,0 +1,14 @@
+{
+  "name": "teamkit",
+  "description": "TeamKit: a project starter kit for a team of Claude Code agents",
+  "owner": {
+    "name": "ioncat"
+  },
+  "plugins": [
+    {
+      "name": "teamkit",
+      "source": "./",
+      "description": "Start a project with a team of Claude Code agents: the CTO interviews you, then TeamKit writes the rules, role briefs and project files."
+    }
+  ]
+}

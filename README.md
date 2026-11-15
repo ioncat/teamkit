@@ -23,6 +23,17 @@ Copy this folder as the root of a new project. It gives you the working rules, t
 | `.claude/sessions/` | Session logs (gitignored) |
 | `docs/discovery/`, `.scratch/` | Ideas and designs; temporary files per role (gitignored) |
 
+## Use it as a Claude Code plugin (prototype)
+
+Install it once, then start a project from any empty folder:
+
+```bash
+claude plugin marketplace add ioncat/teamkit
+claude plugin install teamkit@teamkit
+```
+
+In Claude Code, open an empty folder and run `/teamkit:init`. Claude acts as the CTO of the new project: it interviews you one question at a time, writes the project files with the generator below, then fills the blanks with you. `/teamkit:update` (read-only for now) tells you what a project built by an older TeamKit needs to catch up. The generator needs Python 3.10 or newer. To try it without installing, run `claude --plugin-dir <this folder>`.
+
 ## Generator
 
 `python tools/new_project.py --out <folder>` asks for the kind, stack and depth of the project and builds a folder with only the roles and rules that fit (see `docs/template-design.md` and the quickstart). The steps below are the manual way.
