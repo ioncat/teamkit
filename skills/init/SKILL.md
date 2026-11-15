@@ -31,8 +31,8 @@ Then show all answers in one table and ask for a clear yes.
 
 ## Step 2. Generate
 
-1. Write the answers as JSON to `${CLAUDE_PLUGIN_DATA}/answers.json` with the keys `name`, `kind`, `stack`, `depth`, `visibility`, `tracker`, `language`, `docs`, `mcp` (true or false), `extra_roles` (`["analyst"]` or `[]`), `work_mode` (`"manual"`).
-2. Dry run first: `python "${CLAUDE_PLUGIN_ROOT}/tools/new_project.py" --out <target> --answers "${CLAUDE_PLUGIN_DATA}/answers.json" --dry-run`. Tell the owner in two or three lines which roles the project gets and how many blanks are left. Ask for a yes.
+1. Write the answers as JSON to a temporary file OUTSIDE the project folder (the system temp folder or your session scratchpad; never under `~/.claude`, those paths are refused) and delete it when the generator has run. The file has the keys `name`, `kind`, `stack`, `depth`, `visibility`, `tracker`, `language`, `docs`, `mcp` (true or false), `extra_roles` (`["analyst"]` or `[]`), `work_mode` (`"manual"`).
+2. Dry run first: `python "${CLAUDE_PLUGIN_ROOT}/tools/new_project.py" --out <target> --answers "<the temporary file>" --dry-run`. Tell the owner in two or three lines which roles the project gets and how many blanks are left. Ask for a yes.
 3. Run the same command without `--dry-run`. If it prints `PROBLEM`, stop and show it.
 
 ## Step 3. Continue as the CTO
