@@ -1,0 +1,49 @@
+# TeamKit: a project start kit for a team of Claude Code agents
+
+*Formerly `team-template` (renamed 2026-10-31).*
+
+**New here? Read [`QUICKSTART.md`](QUICKSTART.md) (15 minutes).**
+
+Copy this folder as the root of a new project. It gives you the working rules, the role briefs and the project addenda of a team of agent sessions (CTO, backend, frontend, mobile, MCP, product, independent reviewer, web QA) so you can start a full development team in a few steps.
+
+## What is inside
+
+| Path | What it is |
+|---|---|
+| `CLAUDE.md` | Project instructions with blanks to fill (stack, commands, critical rules) |
+| `docs/team/AGENT_TEAM_RULES.md` | Common rules for every agent (reports, talking to the owner, commits, data, safety, quality). Do not edit per project; add to the addendum instead |
+| `docs/team/roles/` | One startup brief per role: CTO, backend, frontend, mobile, mcp (optional: agent interface for users' own agents), product, code-reviewer (independent reviewer with lenses), analyst (independent check of business logic: process, flow, requirements), qa-web |
+| `docs/team/FILE_LAYOUT.md` | The folder skeleton: fixed paths for every project, fixed names for optional folders, the project's own part decided by its CTO |
+| `docs/team/WORK_MODES.md` | Two modes: `auto` (agents work almost alone) and `manual` (the owner works) |
+| `docs/team/START_PROMPTS.md` | The one-line start message for each role and the launch order |
+| `docs/delivery/AGENT_RULES.md` | The project addendum: fill in tracker, file ownership, project specifics by rule number |
+| `docs/delivery/roles/` | Per-role project addenda (short, to fill) |
+| `docs/delivery/documentation-conventions.md` | Where tasks, changelog and epics live |
+| `docs/delivery/CHANGELOG.md`, `REVIEW_FINDINGS.md` | Empty, with headers |
+| `.claude/sessions/` | Session logs (gitignored) |
+| `docs/discovery/`, `.scratch/` | Ideas and designs; temporary files per role (gitignored) |
+
+## Generator
+
+`python tools/new_project.py --out <folder>` asks for the kind, stack and depth of the project and builds a folder with only the roles and rules that fit (see `docs/template-design.md` and the quickstart). The steps below are the manual way.
+
+## Start in six steps
+
+1. Copy the folder, `git init`, fill the blanks marked `<<...>>` (search for `<<`).
+2. Decide the tracker (an issue board such as Linear, or a `docs/delivery/BACKLOG.md`) and write it into `docs/delivery/AGENT_RULES.md`, row 20.
+3. Fill `CLAUDE.md` (stack, commands, critical rules, no-personal-data rule if the repo is public).
+4. Fill the file ownership table in `docs/delivery/AGENT_RULES.md`: which role owns which folders.
+5. Open the CTO session first and give it its start message from `docs/team/START_PROMPTS.md`. It reads the rules, creates the tracker labels and tells you which sessions to open.
+6. Open the other sessions one by one (each with its start message). A CTO cannot create full sessions itself; you open them, it manages them.
+
+## Roles you can drop
+
+Not every project needs every role. A project without a UI drops frontend and qa-web; a small one can start with CTO, backend and reviewer. Add a role by copying `roles/backend.md`, changing the "who you are" and the first action, and adding a row to the ownership table.
+
+## Hygiene
+
+No personal data, secrets or real names in tracked files. Fixtures are synthetic. Add a guard test in the first week (`tests/test_no_personal_data.py` in your own style).
+
+## Sources
+
+The documents TeamKit is built on (methodology, standards, Claude Code practice), with what each one gave: [`docs/SOURCES.md`](docs/SOURCES.md).

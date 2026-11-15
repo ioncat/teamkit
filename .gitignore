@@ -1,0 +1,12 @@
+.claude/sessions/
+.claude/memory/
+.claude/work_mode
+.claude/approvals.txt
+.env
+*.db
+__pycache__/
+node_modules/
+.venv/
+.pytest_cache/
+.scratch/
+.worktrees/
