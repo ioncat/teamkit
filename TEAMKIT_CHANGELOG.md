@@ -2,7 +2,7 @@
 
 What changed in each version and what a project built from TeamKit must do to update (see `docs/update-mechanism.md`). `docs/team/` is replaced whole; the steps below are for `docs/delivery/` and `CLAUDE.md`.
 
-## 0.5.0 (2026-11-16, the stage and the QA role)
+## 0.4.1 (2026-11-16, the stage and the QA role)
 
 Changed in `docs/team/` (replaced by the update):
 - `roles/qa.md` (new): the QA agent runs the project's stage and passes an issue's acceptance criteria at three levels (backend by HTTP, the app without a window, the app with a window); verdicts PASS, FAIL, PASS-without-window with evidence; windowed runs are announced and need the owner's ok, queued when he cannot. `roles/qa-web.md` stays as the browser-interface specialisation.

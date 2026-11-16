@@ -1,7 +1,7 @@
 {
   "name": "teamkit",
   "description": "A project starter kit for a team of Claude Code agents: an interview run by the product agent, the rules and role briefs of the team, and a generator for the project files.",
-  "version": "0.5.0",
+  "version": "0.4.1",
   "author": {
     "name": "ioncat"
   },
