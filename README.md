@@ -12,8 +12,8 @@ One agent doing everything mixes product questions, code, reviews and tests in o
 
 | Role | Does |
 |---|---|
-| **Product manager** | Your first contact. Strategy and positioning, market and competitor analysis, validation of your ideas, priorities and the roadmap's meaning, user-visible texts; brings you only the decisions that are yours, with a recommendation |
-| **Business analyst** | Discovery of each request: what exists, the users and edge cases, open questions; writes each task as a user story with Given / When / Then acceptance criteria and what is out of scope |
+| **Product Manager** | Your first contact. Strategy and positioning, market and competitor analysis, validation of your ideas, priorities and the roadmap's meaning, user-visible texts; brings you only the decisions that are yours, with a recommendation |
+| **Business Analyst** | Discovery of each request: what exists, the users and edge cases, open questions; writes each task as a user story with Given / When / Then acceptance criteria and what is out of scope |
 | **CTO** | Architecture and technical decisions; adds feasibility, effort and technical notes to each task, picks and starts the right agent, keeps the tracker true, merges only verified work; writes no product code |
 | **Backend / Frontend / Mobile** | Build in their own area and branch, test first, report one commit hash; never push, never touch another role's files |
 | **Reviewer** | Independent review of every change: code, security, data, logic and flows; findings ranked by severity with a concrete failure scenario |
@@ -25,12 +25,12 @@ Roles are plain Markdown briefs: add a role, give one deeper skills (a checklist
 
 ```mermaid
 flowchart LR
-    O([You]) -->|/teamkit:init| P["Product manager<br/>what to build and why"]
-    P --> A["Business analyst<br/>specs: stories + criteria"]
+    O([You]) -->|/teamkit:init| P["Product Manager<br/>what to build and why"]
+    P --> A["Business Analyst<br/>specs: stories + criteria"]
     P -.-> C
     A --> C["CTO<br/>architecture, plan"]
     C --> T
-    subgraph T["Delivery team"]
+    subgraph T["Delivery Team"]
         direction TB
         B[Backend] ~~~ F[Frontend]
         Q[QA] ~~~ R[Reviewer]
@@ -38,17 +38,17 @@ flowchart LR
     T -->|iterates spec by spec| MVP([MVP])
 ```
 
-1. **The product manager** (an agent) interviews you: what you want to build, for whom, what goes first.
-2. **Business analyst** formalises it into specs (user stories, acceptance criteria): the Spec-Driven Development documentation. The CTO may join this step early.
+1. **The Product Manager** (an agent) interviews you: what you want to build, for whom, what goes first.
+2. **The Business Analyst** formalises it into specs (user stories, acceptance criteria): the Spec-Driven Development documentation. The CTO may join this step early.
 3. **CTO** turns the specs into architecture and a technical plan, and starts the team.
-4. **The delivery team** (backend, frontend, QA, reviewer) builds spec by spec, each change tested and reviewed, until the MVP.
+4. **The Delivery Team** (Backend, Frontend, QA, Reviewer) builds spec by spec, each change tested and reviewed, until the MVP.
 
 You decide goals, money, live data and anything irreversible.
 
 ## Principles
 
 - **Spec before code.** No task starts without acceptance criteria.
-- **Nobody grades their own homework.** An independent reviewer reads every change; QA tests it.
+- **Nobody grades their own homework.** An independent Reviewer reads every change; QA tests it.
 - **Nothing runs first on your live system.** Changes pass on a stage with a copy of the data.
 - **You decide, agents recommend.** One question at a time, with a recommendation.
 - **A repeated mistake becomes code:** a test or a check, not another reminder.
