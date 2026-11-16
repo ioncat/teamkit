@@ -148,6 +148,28 @@ class GeneratorTest(unittest.TestCase):
             out = generate(tmp, kind="research", depth="research", mcp=False)
             self.assertFalse((out / "docs/team/roles/mcp.md").exists())
 
+    def test_qa_role_and_stage(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = generate(tmp, kind="service", stack="python", depth="mvp", mcp=False)
+            self.assertFalse((out / "docs/team/roles/qa.md").exists())
+            self.assertFalse((out / "docs/delivery/STAGE.md").exists())
+        with tempfile.TemporaryDirectory() as tmp:
+            out = generate(tmp, kind="service", stack="python", depth="mvp", mcp=False, stage=True)
+            self.assertTrue((out / "docs/team/roles/qa.md").exists())
+            self.assertTrue((out / "docs/delivery/roles/qa.md").exists())
+            self.assertTrue((out / "docs/delivery/STAGE.md").exists())
+            self.assertIn("by-qa", (out / "docs/delivery/AGENT_RULES.md").read_text(encoding="utf-8"))
+            self.assertIn("`QA`", (out / "docs/team/START_PROMPTS.md").read_text(encoding="utf-8"))
+            self.assertIn("rule 31", (out / "docs/delivery/documentation-conventions.md").read_text(encoding="utf-8"))
+            self.assert_clean(out)
+        with tempfile.TemporaryDirectory() as tmp:
+            out = generate(tmp, kind="web", stack="react", depth="product")  # product: qa and qa-web
+            self.assertTrue((out / "docs/team/roles/qa.md").exists())
+            self.assertTrue((out / "docs/team/roles/qa-web.md").exists())
+        with tempfile.TemporaryDirectory() as tmp:
+            out = generate(tmp, kind="research", depth="research", mcp=False, stage=True)  # research never gets a stage role
+            self.assertFalse((out / "docs/team/roles/qa.md").exists())
+
     def test_dry_run_writes_nothing(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "proj"

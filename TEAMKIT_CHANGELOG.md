@@ -2,6 +2,21 @@
 
 What changed in each version and what a project built from TeamKit must do to update (see `docs/update-mechanism.md`). `docs/team/` is replaced whole; the steps below are for `docs/delivery/` and `CLAUDE.md`.
 
+## 0.5.0 (2026-11-16, the stage and the QA role)
+
+Changed in `docs/team/` (replaced by the update):
+- `roles/qa.md` (new): the QA agent runs the project's stage and passes an issue's acceptance criteria at three levels (backend by HTTP, the app without a window, the app with a window); verdicts PASS, FAIL, PASS-without-window with evidence; windowed runs are announced and need the owner's ok, queued when he cannot. `roles/qa-web.md` stays as the browser-interface specialisation.
+- `AGENT_TEAM_RULES.md`: rule 31 appended (a change with a visible, outward, token, setting or migration effect runs on the stage and passes QA before it reaches the owner's live system).
+- `FILE_LAYOUT.md`: stage items (`db/stage*`, `logs/stage_outbound.log`, `.env.stage`, `docs/delivery/STAGE.md`, `docs/delivery/qa/`).
+- `START_PROMPTS.md`: a QA row.
+
+A project built from an earlier version does this to update (see `docs/update-mechanism.md`):
+1. Replace `docs/team/` whole. If the project pushes messages, spends tokens or writes live data: add `docs/delivery/roles/qa.md` from the template, a QA row and a `by-qa` label mention in `docs/delivery/AGENT_RULES.md`, and write `docs/delivery/STAGE.md` (start, data copy, replaced channels, start guard, fixtures) with the backend agent. The owner approves the stage launcher once.
+2. Add the gate line to `docs/delivery/documentation-conventions.md` (session end checklist, item 2).
+3. Open the QA session with its line from `docs/team/START_PROMPTS.md` when the stage runs.
+
+Changed in the tools: `tools/new_project.py` has the new role `qa`, the answer `stage` (true or false; default no, asked at the interview) and generates `docs/delivery/STAGE.md` and `docs/delivery/qa/README.md` for a project with a stage; depth `product` includes `qa` by default. `/teamkit:init` asks the new question.
+
 ## 0.4.0 (2026-11-16, the product agent is the entry role)
 
 Changed in `docs/team/` (replaced by the update):

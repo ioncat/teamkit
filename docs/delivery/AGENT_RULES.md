@@ -18,7 +18,7 @@
 <!-- kind:web,mobile -->| 16 UI | <<How the owner confirms a visual change; is there a browser preview?>> |<!-- /kind -->
 <!-- kind:web,mobile,service,data-ml -->| 19 Tests and the live DB | A fixture sets the DB path to a throwaway file for every test: <<file>> |<!-- /kind -->
 | 20 Task tracker | The board is <<Linear / GitHub Issues / BACKLOG.md>>, key <<PRJ>>. Only the CTO writes to it (among agents). Each handout carries an issue id; name it in your report and commit message. Issue format: `Origin:` first (who asked, when, in what words); user-facing issues use User story + Given/When/Then + edge cases + out of scope + dependencies; technical ones the short form Every issue also carries a `Value:` line right after `Origin:` (what gets better and for whom); an issue without it is not handed out. |
-| 21 Labels | <!-- role:backend -->`by-backend`, <!-- /role --><!-- role:frontend -->`by-frontend`, <!-- /role --><!-- role:mobile -->`by-mobile`, <!-- /role --><!-- role:mcp -->`by-mcp`, <!-- /role --><!-- role:product -->`by-product`, <!-- /role -->`by-cto`, <!-- role:qa-web -->`by-qa`, <!-- /role --><!-- role:code-reviewer -->`reviewed`, <!-- /role -->`needs-owner` |
+| 21 Labels | <!-- role:backend -->`by-backend`, <!-- /role --><!-- role:frontend -->`by-frontend`, <!-- /role --><!-- role:mobile -->`by-mobile`, <!-- /role --><!-- role:mcp -->`by-mcp`, <!-- /role --><!-- role:product -->`by-product`, <!-- /role -->`by-cto`, <!-- role:qa,qa-web -->`by-qa`, <!-- /role --><!-- role:code-reviewer -->`reviewed`, <!-- /role -->`needs-owner` |
 | 18 Session log | `.claude/sessions/YYYY-MM-DD-short-description.md` (gitignored) |
 
 ## File ownership (rule 9)
@@ -35,6 +35,7 @@
 <!-- depth:product -->| Reviewer | `docs/delivery/REVIEW_FINDINGS.md` (the findings register); read-only otherwise |<!-- /depth -->
 <!-- depth:mvp -->| Reviewer | read-only; findings go to the CTO in the report |<!-- /depth -->
 <!-- /role -->
+<!-- role:qa -->| QA | `docs/delivery/qa/` (scenario files) and its own test harness folder; read-only otherwise |<!-- /role -->
 <!-- role:qa-web -->| Web QA | the smoke plan in `docs/delivery/`; read-only otherwise |<!-- /role -->
 <!-- role:analyst -->| Analyst | `docs/delivery/LOGIC_FINDINGS.md` (the logic findings register); read-only otherwise |<!-- /role -->
 <!-- depth:mvp,product -->| Shared, each for its own entries | `docs/delivery/CHANGELOG.md` |<!-- /depth -->
@@ -47,6 +48,7 @@
 <!-- role:mobile -->- [mobile](roles/mobile.md)<!-- /role -->
 <!-- role:mcp -->- [mcp](roles/mcp.md)<!-- /role -->
 <!-- role:product -->- [product](roles/product.md)<!-- /role -->
+<!-- role:qa -->- [qa](roles/qa.md)<!-- /role -->
 <!-- role:qa-web -->- [qa-web](roles/qa-web.md)<!-- /role -->
 <!-- role:code-reviewer -->- [code-reviewer](roles/code-reviewer.md)<!-- /role -->
 <!-- role:analyst -->- [analyst](roles/analyst.md)<!-- /role -->

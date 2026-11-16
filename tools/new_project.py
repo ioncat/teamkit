@@ -31,7 +31,7 @@ TRACKERS = ["linear", "github", "backlog"]
 DOC_LEVELS = ["light", "standard", "full"]
 DEFAULT_DOCS = {"research": "light", "mvp": "standard", "product": "full"}
 TRACKER_TEXT = {"linear": "Linear", "github": "GitHub Issues", "backlog": "`docs/delivery/BACKLOG.md`"}
-ALL_ROLES = ["cto", "backend", "frontend", "mobile", "mcp", "product", "qa-web", "code-reviewer", "analyst"]
+ALL_ROLES = ["cto", "backend", "frontend", "mobile", "mcp", "product", "qa", "qa-web", "code-reviewer", "analyst"]
 OPTIONAL_ROLES = ["analyst"]  # not in any preset; a project opts in with the answer "extra_roles"
 EXCLUDE_TOP = {".git", ".pytest_cache", "tools", "TEMPLATE_VERSION", "README.md", "QUICKSTART.md", "QUICKSTART.ru.md", "TEAMKIT_CHANGELOG.md",
                # not for a new project: TeamKit's own plugin files, its license, and local working folders
@@ -86,6 +86,7 @@ def interview():
         "docs": ask("Documentation level", DOC_LEVELS, DEFAULT_DOCS[depth]),
         "mcp": ask("Will users connect their own agents (MCP)?", ["yes", "no"], mcp_default) == "yes",
         "extra_roles": ["analyst"] if ask("Add the optional Business Logic Analyst role?", ["yes", "no"], "no") == "yes" else [],
+        "stage": ask("Does it push messages, spend tokens or write live data (then it gets a stage and a QA role)?", ["yes", "no"], "yes" if depth == "product" else "no") == "yes",
         "work_mode": "manual",
     }
 
@@ -113,6 +114,8 @@ def normalize(raw):
     if not isinstance(extra, list) or any(r not in OPTIONAL_ROLES for r in extra):
         raise SystemExit(f"answers: 'extra_roles' must be a list from {OPTIONAL_ROLES}")
     a["extra_roles"] = extra
+    stage = a.get("stage", False)
+    a["stage"] = stage == "yes" if isinstance(stage, str) else bool(stage)
     a["work_mode"] = "manual"
     return a
 
@@ -128,7 +131,9 @@ def pick_roles(a):
         ui = {"web": ["frontend"], "mobile": ["mobile"]}.get(kind, [])
         roles = ["product", "cto", "backend"] + ui + ["code-reviewer"]
         if depth == "product":
-            roles += (["qa-web"] if kind == "web" else [])
+            roles += ["qa"] + (["qa-web"] if kind == "web" else [])
+        if a.get("stage") and "qa" not in roles:
+            roles.append("qa")  # a project with a stage needs the role that runs it (rule 31)
     if a["mcp"] and "backend" in roles:
         roles.append("mcp")
     roles += [r for r in a.get("extra_roles", []) if r not in roles]
@@ -202,6 +207,20 @@ def fill_map(a):
     return pairs
 
 
+STAGE_STUB = """# Stage
+
+The stage is a second instance of the project, started from the branch under test, with a copy of the data and every outward channel replaced (rule 31). Nothing reaches the owner's live system before a change has passed QA here.
+
+Fill in (the CTO writes this with the backend agent; the owner approves the launcher script once):
+
+- Start and stop: <<launcher script, address, port>> (services are started only with the owner's launcher).
+- Data: the copy is made from the live data opened read-only: <<snapshot command>>. Keep it out of git (`db/stage*`).
+- Outward channels replaced: messages, pushes and mail write to `logs/stage_outbound.log`; paid services are replaced by <<stand-in>>; a real call only on the owner's word, per run.
+- Start guard: the stage refuses to start on the live data file, on the live port, or with a secret present (`.env.stage` carries none).
+- Fixtures for anything read from outside: <<folder>>.
+"""
+
+
 def readme(a, roles):
     """A short project README that replaces the template's."""
     names = ", ".join(roles)
@@ -243,6 +262,9 @@ def render(a, template=ROOT):
     files["README.md"] = readme(a, [n for r in roles for n in variants[r]])
     if a["tracker"] == "backlog":
         files["docs/delivery/BACKLOG.md"] = "# Backlog\n\nOpen tasks, one per line: `Origin:` first, then `Value:`.\n"
+    if a.get("stage") and "qa" in roles:
+        files["docs/delivery/STAGE.md"] = STAGE_STUB
+        files["docs/delivery/qa/README.md"] = "# QA scenarios" + chr(10) * 2 + "One file per feature: the steps, the expected result, the level (backend by HTTP, app without a window, app with a window). Written by the QA role." + chr(10)
     files["project.yaml"] = json.dumps(
         {**a, "template_version": (ROOT / "TEMPLATE_VERSION").read_text().strip(),
          "roles": [n for r in roles for n in variants[r]]}, indent=2) + "\n"

@@ -1,6 +1,6 @@
 # Role: Web QA agent
 
-> Startup brief. Give a new session one line: "Read `docs/team/roles/qa-web.md`, then the project addendum `docs/delivery/roles/qa-web.md`, and follow them." Common rules for every agent: [`../AGENT_TEAM_RULES.md`](../AGENT_TEAM_RULES.md).
+> Startup brief. Give a new session one line: "Read `docs/team/roles/qa-web.md`, then the project addendum `docs/delivery/roles/qa-web.md`, and follow them." Common rules for every agent: [`../AGENT_TEAM_RULES.md`](../AGENT_TEAM_RULES.md). A project with a stage uses `qa` (`roles/qa.md`) for the whole chain and this role only for the browser part of a web interface.
 
 ## Who you are
 

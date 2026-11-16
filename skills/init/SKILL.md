@@ -25,13 +25,14 @@ You are the product agent of a new project, the entry role: the owner talks to y
 7. **Chat language:** the language the owner talks to the agents in.
 8. **Documentation level:** `light`, `standard`, `full`. Default: `research` gives light, `mvp` gives standard, `product` gives full.
 9. **MCP:** will users connect their own agents to the product? Default: yes for `product` of kind `web` or `service`, otherwise no.
-10. **Optional role:** add the Business Logic Analyst (an independent read-only check of flows and requirements)? Default: no.
+10. **Stage:** does the product push messages, spend tokens or write live data? If yes, `stage` is true: the project gets a stage (a second instance with a copy of the data and every outward channel replaced) and the QA role that runs it (rule 31). Default: yes for `product`, otherwise no.
+11. **Optional role:** add the Business Logic Analyst (an independent read-only check of flows and requirements)? Default: no.
 
 Then show all answers in one table and ask for a clear yes.
 
 ## Step 2. Generate
 
-1. Write the answers as JSON to a temporary file OUTSIDE the project folder (the system temp folder or your session scratchpad; never under `~/.claude`, those paths are refused) and delete it when the generator has run. The file has the keys `name`, `kind`, `stack`, `depth`, `visibility`, `tracker`, `language`, `docs`, `mcp` (true or false), `extra_roles` (`["analyst"]` or `[]`), `work_mode` (`"manual"`).
+1. Write the answers as JSON to a temporary file OUTSIDE the project folder (the system temp folder or your session scratchpad; never under `~/.claude`, those paths are refused) and delete it when the generator has run. The file has the keys `name`, `kind`, `stack`, `depth`, `visibility`, `tracker`, `language`, `docs`, `mcp` (true or false), `stage` (true or false), `extra_roles` (`["analyst"]` or `[]`), `work_mode` (`"manual"`).
 2. Dry run first: `python "${CLAUDE_PLUGIN_ROOT}/tools/new_project.py" --out <target> --answers "<the temporary file>" --dry-run`. Tell the owner in two or three lines which roles the project gets and how many blanks are left. Ask for a yes.
 3. Run the same command without `--dry-run`. If it prints `PROBLEM`, stop and show it.
 

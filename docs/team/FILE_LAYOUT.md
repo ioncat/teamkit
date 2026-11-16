@@ -21,6 +21,11 @@ Two rules hold over all layers:
 | `.claude/work_mode` | `auto` or `manual` | no |
 | `.scratch/<role>/` | temporary files of each role: drafts, reports, run logs, one-off scripts | no |
 | `.worktrees/` | git worktrees of agents | no |
+| `db/stage*` | the stage's copy of the database (made from the live one, which is opened read-only); only in a project with a stage | no |
+| `logs/stage_outbound.log` | what the stage would have sent or spent (its outward channels write here) | no |
+| `.env.stage` | the stage's settings; carries no secret | no |
+| `docs/delivery/STAGE.md` | how to start and stop the stage, refresh the snapshot, add a fixture | yes |
+| `docs/delivery/qa/` | QA scenario files, one per feature | yes |
 
 ## Layer 2: fixed names, used when needed
 

@@ -37,4 +37,5 @@ Epic-sized means multi-session, more than one subsystem, or a design decision re
 1. A CHANGELOG bullet for every delivered feature.
 <!-- /depth -->
 2. Delivered issues closed (CTO).
+<!-- role:qa -->   - A delivered issue with a visible, outward, token, setting or migration effect carries the QA verdict from the stage (rule 31) before it is closed.<!-- /role -->
 3. A session log written.

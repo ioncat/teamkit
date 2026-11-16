@@ -10,7 +10,7 @@ Copy this folder as the root of a new project. It gives you the working rules, t
 |---|---|
 | `CLAUDE.md` | Project instructions with blanks to fill (stack, commands, critical rules) |
 | `docs/team/AGENT_TEAM_RULES.md` | Common rules for every agent (reports, talking to the owner, commits, data, safety, quality). Do not edit per project; add to the addendum instead |
-| `docs/team/roles/` | One startup brief per role: CTO, backend, frontend, mobile, mcp (optional: agent interface for users' own agents), product, code-reviewer (independent reviewer with lenses), analyst (independent check of business logic: process, flow, requirements), qa-web |
+| `docs/team/roles/` | One startup brief per role: CTO, backend, frontend, mobile, mcp (optional: agent interface for users' own agents), product, code-reviewer (independent reviewer with lenses), analyst (independent check of business logic: process, flow, requirements), qa (runs the stage and passes an issue's criteria before it reaches the owner's live system), qa-web |
 | `docs/team/FILE_LAYOUT.md` | The folder skeleton: fixed paths for every project, fixed names for optional folders, the project's own part decided by its CTO |
 | `docs/team/WORK_MODES.md` | Two modes: `auto` (agents work almost alone) and `manual` (the owner works) |
 | `docs/team/START_PROMPTS.md` | The one-line start message for each role and the launch order |
@@ -47,7 +47,7 @@ In Claude Code, open an empty folder and run `/teamkit:init`. Claude acts as the
 
 ## Roles you can drop
 
-Not every project needs every role. A project without a UI drops frontend and qa-web; a small one can start with CTO, backend and reviewer. Add a role by copying `roles/backend.md`, changing the "who you are" and the first action, and adding a row to the ownership table.
+Not every project needs every role. A project without a UI drops frontend and qa-web; a project that pushes messages, spends tokens or writes live data adds a stage and the qa role (rule 31); a small one can start with CTO, backend and reviewer. Add a role by copying `roles/backend.md`, changing the "who you are" and the first action, and adding a row to the ownership table.
 
 ## Hygiene
 

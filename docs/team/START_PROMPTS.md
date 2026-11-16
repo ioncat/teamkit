@@ -43,6 +43,7 @@ Each role is ONE long-lived session with the role's name (`Developer`, `Code Rev
 <!-- role:frontend -->| Frontend | `Frontend` | `Read docs/team/roles/frontend.md, then docs/delivery/roles/frontend.md, and follow them.` |<!-- /role -->
 <!-- role:mobile -->| Mobile | `Mobile` | `Read docs/team/roles/mobile.md, then docs/delivery/roles/mobile.md, and follow them.` |<!-- /role -->
 <!-- role:mcp -->| MCP | `MCP` | `Read docs/team/roles/mcp.md, then docs/delivery/roles/mcp.md, and follow them.` |<!-- /role -->
+<!-- role:qa -->| QA | `QA` | `Read docs/team/roles/qa.md, then docs/delivery/roles/qa.md, and follow them.` |<!-- /role -->
 <!-- role:qa-web -->| Web QA | `Web QA` | `Read docs/team/roles/qa-web.md, then docs/delivery/roles/qa-web.md, and follow them.` |<!-- /role -->
 <!-- role:code-reviewer -->| Independent Reviewer | `Code Reviewer` | `Read docs/team/roles/code-reviewer.md, then docs/delivery/roles/code-reviewer.md, and follow them.` |<!-- /role -->
 <!-- role:analyst -->| Business Logic Analyst | `Analyst` | `Read docs/team/roles/analyst.md, then docs/delivery/roles/analyst.md, and follow them.` |<!-- /role -->
