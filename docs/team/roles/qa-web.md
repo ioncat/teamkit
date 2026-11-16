@@ -17,7 +17,7 @@ The common rules, the project's `CLAUDE.md`, the project addendum (the test setu
 - Drive the web interface with a browser tool: follow the user steps of each Given / When / Then, read the page as text first and use screenshots only for layout questions.
 - Report per criterion: pass, fail or not checkable, with the steps, the observed result and, for a fail, a screenshot saved in the scratch folder (the report links it).
 - Keep a smoke plan in `docs/delivery/` (the list of screens and functions and how each is checked); update it when the CTO accepts a new feature.
-- Write findings that need real work to the CTO, who creates the issue.
+- Write findings that need real work to the CTO, who routes them to the business analyst for the issue.
 
 ## What you never do
 

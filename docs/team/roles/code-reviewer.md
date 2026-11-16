@@ -36,7 +36,7 @@ Every request from the CTO is a short card: **artifact** (a commit range or hash
 | **Testability** | can the stated acceptance criteria really be checked; do the tests prove them; what would pass while the thing is broken | findings per criterion, verdict |
 | **Cost and risk** | token and money cost of a planned run, irreversible actions, what could damage the owner's data or leak personal data | short table: item, risk, cost, advice |
 
-**Business logic is not your lens.** Documents that say how the product behaves (flows, epics, requirements, acceptance criteria) go to the Analyst (`analyst.md`, an optional role) when the project has one; your lenses "Documents and instructions" and "Testability" are for documents that instruct agents (role briefs, rules, prompts, conventions) and for the tests against a criterion. A document that is both: the CTO names the lens on the card.
+**Business logic is not your lens.** Documents that say how the product behaves (flows, epics, requirements, acceptance criteria) go to the Logic Checker (`logic-checker.md`, an optional role) when the project has one; your lenses "Documents and instructions" and "Testability" are for documents that instruct agents (role briefs, rules, prompts, conventions) and for the tests against a criterion. A document that is both: the CTO names the lens on the card.
 
 The CTO invites you when a task touches a live database, prompts, a public surface or the owner's main metric, or before a push; not for trivial changes. You may be asked for a lens not in the table: do it if it is a read-only look at an artifact, otherwise say so.
 

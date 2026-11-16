@@ -35,8 +35,9 @@ One agent in one long session works well for small tasks. On a real product it b
 ```mermaid
 flowchart LR
     O([You]) -->|idea, request, complaint| P[Product agent]
-    P -->|technical question| C[CTO agent]
-    C -->|issue with acceptance criteria| D[Backend / Frontend / Mobile]
+    P -->|request + meaning| A[Business analyst]
+    A -->|issue with acceptance criteria| C[CTO agent]
+    C -->|technical part, assigned| D[Backend / Frontend / Mobile]
     D -->|branch + commit| R[Independent reviewer]
     D -->|branch| Q[QA on the stage]
     R --> C
@@ -45,32 +46,34 @@ flowchart LR
     M --> O
 ```
 
-1. **You talk to the product agent.** It turns an idea into a decision or a question for you, and calls the CTO when there is a technical side.
-2. **The CTO plans and assigns.** It writes the issue (user story, acceptance criteria, out of scope) and starts the right agent. It writes no product code.
-3. **A developer agent builds it** on its own branch, with tests, and reports one line: the commit hash.
-4. **Two independent checks:** the reviewer reads the diff (findings ranked by severity, with a concrete failure scenario); QA runs the change on the stage against the acceptance criteria.
-5. **The CTO merges** only a verified hash, and you see the result in your own build.
+1. **You talk to the product agent.** It turns an idea into a decision or a question for you, and decides the order of the work.
+2. **The business analyst writes the task.** It does the discovery (what exists, the edges, the open questions) and writes the issue: user story, Given / When / Then acceptance criteria, edge cases, out of scope.
+3. **The CTO adds the technical part and assigns.** Feasibility, effort, which role, technical notes; it starts the right agent. It writes no product code.
+4. **A developer agent builds it** on its own branch, with tests, and reports one line: the commit hash.
+5. **Two independent checks:** the reviewer reads the diff (findings ranked by severity, with a concrete failure scenario); QA runs the change on the stage against the acceptance criteria.
+6. **The CTO merges** only a verified hash, and you see the result in your own build.
 
 ## The roles
 
 | Role | What it does |
 |---|---|
-| **Product** (entry role) | The session you talk to first. Strategy and positioning, priorities inside your goals, user stories and acceptance criteria, user-visible texts; brings your own decisions to you with a recommendation |
-| **CTO** | Technical decisions, the tracker, which agents to start, merges verified work. Writes no product code |
+| **Product** (entry role) | The session you talk to first. Strategy and positioning, priorities inside your goals, user-visible texts; approves the acceptance criteria; brings your own decisions to you with a recommendation |
+| **Business analyst** | Discovery of each request and the tasks: writes every issue (user story, acceptance criteria, edge cases, out of scope) before anyone builds |
+| **CTO** | Technical decisions: adds the technical part to each issue, assigns it, starts the agents, merges verified work. Writes no product code |
 | **Backend, Frontend, Mobile** | Build in their own folders and branches, with tests; never push |
 | **MCP** (optional) | An agent interface to the product, for users who connect their own AI agents |
 | **Code reviewer** | Independent read-only review through fixed lenses (correctness, security, data, multi-user, ...). Reports to the CTO, never to the author |
 | **QA** | Runs the stage (a second instance on a copy of the data, with messages, payments and model calls replaced) and passes each issue's criteria before it reaches your live system |
 | **Web QA** | Checks the web interface in a real browser against a test setup |
-| **Analyst** (optional) | Independent check of business logic: process, flows, requirements |
+| **Logic Checker** (optional) | Independent read-only check of the flows and criteria the analyst and product wrote: gaps, contradictions, dead ends |
 
-Not every project needs every role. The generator picks a preset by the kind and depth of the project; a small one starts with Product, CTO, Backend and Reviewer.
+Not every project needs every role. The generator picks a preset by the kind and depth of the project; a small one starts with Product, Business analyst, CTO, Backend and Reviewer.
 
 ## Principles
 
 - **You decide; agents recommend.** Goals, priorities, money and tokens, live data, anything legal or irreversible are yours. A question from you is never taken as approval.
 - **Spec before code (SDD).** Acceptance criteria are written before the work, the work is built and tested against them, and the reviewer and QA check it against the same spec. A risky change takes the full spec lane: a short intent note, examples written as testable criteria (EARS form for failure cases), a plan reviewed before any code, and tests written by someone other than the builder.
-- **Separation of duties.** The author does not review its own work, the tester is not the builder, and only one agent writes to the tracker.
+- **Separation of duties.** The author does not review its own work, the tester is not the builder, and each kind of tracker change has one writer (the analyst writes the tasks, the CTO assigns and closes them).
 - **Nothing first runs on the live system.** Changes that show, store, send, spend or migrate go through the stage and QA first.
 - **Short, faithful reporting.** A failing test or a skipped step is said plainly; one line per event.
 - **Rules grow from real mistakes,** and a mistake that repeats becomes an automatic check.

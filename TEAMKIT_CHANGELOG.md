@@ -2,6 +2,22 @@
 
 What changed in each version and what a project built from TeamKit must do to update (see `docs/update-mechanism.md`). `docs/team/` is replaced whole; the steps below are for `docs/delivery/` and `CLAUDE.md`.
 
+## 0.4.2 (2026-11-16, the business analyst writes the tasks)
+
+Changed in `docs/team/` (replaced by the update):
+- `roles/analyst.md` is now the **Business Analyst**: discovery of each request (restate it, read what exists read-only, find the edges, keep facts, assumptions and open questions apart, a short discovery note when the request is larger than a few lines) and the issue in the tracker (Origin, Value, user story, Given / When / Then criteria, edge cases, out of scope, dependencies). A persistent session, in every team.
+- `roles/logic-checker.md` (renamed from the old `analyst.md`): the independent read-only check of flows and criteria, unchanged in substance, still optional and still a fresh session per request. It now also checks what the business analyst writes, never its own work.
+- `AGENT_TEAM_RULES.md` rule 20: one writer per kind of tracker change (the analyst creates issues and writes their description; the CTO adds the technical part, labels, states, assigns and closes; the owner's edits win). Rules 21, 24 and 28 name the Logic Checker instead of the Analyst.
+- `roles/cto.md`: no longer writes issues; reads the analyst's issue, adds the technical part, assigns and starts the agent; routes findings that need work to the analyst. `roles/product.md`: the analyst writes the acceptance criteria; the product agent gives the meaning, decides and approves them. `roles/qa.md`, `roles/qa-web.md`, `roles/code-reviewer.md` follow the new names.
+- `START_PROMPTS.md`: launch order Product, Business Analyst, CTO, then the builders; a Business Analyst row; the Logic Checker row.
+
+A project built from an earlier version does this to update (see `docs/update-mechanism.md`):
+1. Replace `docs/team/` whole. Add `docs/delivery/roles/analyst.md` (Business Analyst) from the template; if the project had the old optional Analyst, rename its addendum to `docs/delivery/roles/logic-checker.md` and its markers to `role:logic-checker`.
+2. In `docs/delivery/AGENT_RULES.md`: a Business analyst row in the ownership table (the issues, discovery notes) and the Logic Checker row if used; in `documentation-conventions.md` the tracker line (who writes what).
+3. Open the Business Analyst session with its line from `START_PROMPTS.md`. An existing project may keep the CTO writing issues if the owner decides so; write that in the project addendum.
+
+Changed in the tools: `tools/new_project.py` puts `analyst` (Business Analyst) in every preset, research included; the optional role is now `logic-checker` (an answers file with `extra_roles: ["analyst"]` from an earlier version still means the Logic Checker). `/teamkit:init` asks about the Logic Checker.
+
 ## 0.4.1 (2026-11-16, the stage and the QA role)
 
 Changed in `docs/team/` (replaced by the update):

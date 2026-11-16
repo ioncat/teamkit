@@ -22,7 +22,7 @@ The manual way below stays valid as a fallback.
 
 - The agents work as separate Claude Code sessions. **The CTO does not create permanent agents**: you open the sessions and paste each one's start message. The CTO can write to sessions that already exist, wake sleeping ones and start short-lived subagents.
 - The CTO does not write code and is the only one who pushes (after the checks). The others commit locally.
-- Minimal team: **Product + CTO + backend + reviewer**. Add the others (frontend, mobile, mcp, product, qa, qa-web) when there is work for them; add `qa` and a stage as soon as the product sends, spends or writes live data.
+- Minimal team: **Product + business analyst + CTO + backend + reviewer**. Add the others (frontend, mobile, mcp, product, qa, qa-web) when there is work for them; add `qa` and a stage as soon as the product sends, spends or writes live data.
 
 ## 1. Prepare the folder (5 minutes)
 
@@ -48,7 +48,7 @@ Order: backend → reviewer (when the first risky change appears) → the rest a
 
 ## 4. The first task
 
-Tell the Product agent in plain words what you want first; it calls the CTO for the technical part. The CTO creates the task (`Origin:` as the first line, acceptance criteria), hands it to the right agent and accepts the result. You get only: a finished result, a problem, or a decision that belongs to you.
+Tell the Product agent in plain words what you want first. The business analyst does the discovery and writes the task (`Origin:` as the first line, user story, acceptance criteria); the CTO adds the technical part, hands it to the right agent and accepts the result. You get only: a finished result, a problem, or a decision that belongs to you.
 
 ## 5. What you decide
 

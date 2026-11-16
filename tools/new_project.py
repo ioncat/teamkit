@@ -31,8 +31,10 @@ TRACKERS = ["linear", "github", "backlog"]
 DOC_LEVELS = ["light", "standard", "full"]
 DEFAULT_DOCS = {"research": "light", "mvp": "standard", "product": "full"}
 TRACKER_TEXT = {"linear": "Linear", "github": "GitHub Issues", "backlog": "`docs/delivery/BACKLOG.md`"}
-ALL_ROLES = ["cto", "backend", "frontend", "mobile", "mcp", "product", "qa", "qa-web", "code-reviewer", "analyst"]
-OPTIONAL_ROLES = ["analyst"]  # not in any preset; a project opts in with the answer "extra_roles"
+ALL_ROLES = ["cto", "backend", "frontend", "mobile", "mcp", "product", "analyst", "qa", "qa-web", "code-reviewer", "logic-checker"]
+OPTIONAL_ROLES = ["logic-checker"]  # not in any preset; a project opts in with the answer "extra_roles"
+# answers written before 0.4.2 called the independent logic check "analyst"; the business analyst is now in every preset
+LEGACY_EXTRA = {"analyst": "logic-checker"}
 EXCLUDE_TOP = {".git", ".pytest_cache", "tools", "TEMPLATE_VERSION", "README.md", "QUICKSTART.md", "QUICKSTART.ru.md", "TEAMKIT_CHANGELOG.md",
                # not for a new project: TeamKit's own plugin files, its license, and local working folders
                ".claude-plugin", "skills", "LICENSE", ".scratch", ".claude", ".worktrees"}
@@ -85,7 +87,7 @@ def interview():
         "language": ask("Chat language (e.g. English)"),
         "docs": ask("Documentation level", DOC_LEVELS, DEFAULT_DOCS[depth]),
         "mcp": ask("Will users connect their own agents (MCP)?", ["yes", "no"], mcp_default) == "yes",
-        "extra_roles": ["analyst"] if ask("Add the optional Business Logic Analyst role?", ["yes", "no"], "no") == "yes" else [],
+        "extra_roles": ["logic-checker"] if ask("Add the optional Logic Checker (an independent check of flows and criteria)?", ["yes", "no"], "no") == "yes" else [],
         "stage": ask("Does it push messages, spend tokens or write live data (then it gets a stage and a QA role)?", ["yes", "no"], "yes" if depth == "product" else "no") == "yes",
         "work_mode": "manual",
     }
@@ -110,7 +112,7 @@ def normalize(raw):
     if "mcp" not in a:
         a["mcp"] = a["depth"] == "product" and a["kind"] in ("web", "service")
     a["mcp"] = bool(a["mcp"]) if not isinstance(a["mcp"], str) else a["mcp"] == "yes"
-    extra = a.get("extra_roles") or []
+    extra = [LEGACY_EXTRA.get(r, r) for r in (a.get("extra_roles") or [])] if isinstance(a.get("extra_roles") or [], list) else a.get("extra_roles")
     if not isinstance(extra, list) or any(r not in OPTIONAL_ROLES for r in extra):
         raise SystemExit(f"answers: 'extra_roles' must be a list from {OPTIONAL_ROLES}")
     a["extra_roles"] = extra
@@ -123,13 +125,14 @@ def normalize(raw):
 # ---------------------------------------------------------------- roles and markers
 
 def pick_roles(a):
-    """Return the list of roles of the team for the answers (preset by depth and kind). The product agent is the entry role of every project and comes first."""
+    """Return the list of roles of the team for the answers (preset by depth and kind). The product agent is the entry role of every project and comes first;
+    the business analyst (discovery and the tasks) is in every preset, research included, because the CTO no longer writes the issues."""
     kind, depth = a["kind"], a["depth"]
     if depth == "research" or kind == "research":
-        roles = ["product", "cto"]
+        roles = ["product", "analyst", "cto"]
     else:
         ui = {"web": ["frontend"], "mobile": ["mobile"]}.get(kind, [])
-        roles = ["product", "cto", "backend"] + ui + ["code-reviewer"]
+        roles = ["product", "analyst", "cto", "backend"] + ui + ["code-reviewer"]
         if depth == "product":
             roles += ["qa"] + (["qa-web"] if kind == "web" else [])
         if a.get("stage") and "qa" not in roles:

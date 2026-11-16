@@ -12,7 +12,7 @@
 
 ## Tasks
 
-- Only the CTO writes to the tracker; the owner may write too and his edits win.
+- The business analyst creates issues and writes their description; the CTO adds the technical part, labels, states and closes them (rule 20); the owner may write too and his edits win.
 - First line of every issue: `Origin: <who asked, when, in what words>`.
 - Second line of every issue: `Value: <what gets better and for whom, and what hurts without it>`. An issue without a stated value is not handed out.
 - User-facing issue: User story (As a / I want / So that), acceptance criteria as Given / When / Then, edge cases, out of scope, dependencies. Technical issue: Origin, goal, acceptance criteria, out of scope.

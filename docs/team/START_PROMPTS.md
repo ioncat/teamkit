@@ -5,15 +5,18 @@ The owner starts with the **Product** session: it is the entry role. When a ques
 ## Launch order
 
 1. **Product** (name it `Product`). The first session, the one you talk to. It reads the rules and the roadmap and, when the question is technical, calls the CTO.
-2. **CTO** (name it `CTO`). Opened by the Product agent (or by you) when the first technical question comes. It reads the rules, sets up the tracker labels (`by-<role>`, `reviewed`, `needs-owner`), decides which agents are needed and tells you what to open next.
+<!-- role:analyst -->
+2. **Business Analyst** (name it `Analyst`). Opened with the Product session or right after it: it does the discovery of each request and writes the issues.
+<!-- /role -->
+3. **CTO** (name it `CTO`). Opened by the Product agent (or by you) when the first technical question or the first written issue comes. It reads the rules, sets up the tracker labels (`by-<role>`, `reviewed`, `needs-owner`), decides which agents are needed and tells you what to open next.
 <!-- role:backend -->
-3. **Backend** (and the other working roles listed in the table below).
+4. **Backend** (and the other working roles listed in the table below).
 <!-- /role -->
 <!-- role:code-reviewer -->
-4. **Independent Reviewer** (read-only; opened when the first risky change needs a look).
+5. **Independent Reviewer** (read-only; opened when the first risky change needs a look).
 <!-- /role -->
-<!-- role:analyst -->
-5. **Analyst** (read-only; opened by the CTO per request, in a clean export folder, before a flow or an epic is approved; closed after its report; the one role that is NOT a persistent session).
+<!-- role:logic-checker -->
+6. **Logic Checker** (read-only; opened by the CTO per request, in a clean export folder, before a flow or an epic is approved; closed after its report; the one role that is NOT a persistent session).
 <!-- /role -->
 
 Open them one at a time; each sends the CTO a line "ready".
@@ -31,13 +34,14 @@ Without these tools, the owner groups the sessions by hand: right-click a sessio
 Each role is ONE long-lived session with the role's name (`Developer`, `Code Reviewer`, ...), not one session per task.
 - The CTO sends each new task to the existing role session (`send_message` / `SendMessage`); the task id goes in the message, never in the session title.
 - Experience is kept in files as well as in the context: session logs, `.claude/memory/`, and lines in the role addendum (better: tests). That way it survives autocompaction and restarts.
-- A new session for a role is opened only when the old one has lost the thread (see "When a session loses its context"). The Analyst is the one exception: a fresh session per request (`roles/analyst.md`).
+- A new session for a role is opened only when the old one has lost the thread (see "When a session loses its context"). The Logic Checker is the one exception: a fresh session per request (`roles/logic-checker.md`).
 
 ## Start messages (paste the whole line)
 
 | Role | Session name | Message |
 |---|---|---|
 | Product (entry) | `Product` | `Read docs/team/roles/product.md, then docs/delivery/roles/product.md, then docs/team/AGENT_TEAM_RULES.md and CLAUDE.md, and follow them.` |
+<!-- role:analyst -->| Business Analyst | `Analyst` | `Read docs/team/roles/analyst.md, then docs/delivery/roles/analyst.md, then docs/team/AGENT_TEAM_RULES.md and CLAUDE.md, and follow them.` |<!-- /role -->
 | CTO | `CTO` | `Read docs/team/roles/cto.md, then docs/delivery/roles/cto.md, then docs/team/AGENT_TEAM_RULES.md and CLAUDE.md, and follow them.` |
 <!-- role:backend -->| Backend | `Backend` | `Read docs/team/roles/backend.md, then docs/delivery/roles/backend.md, and follow them.` |<!-- /role -->
 <!-- role:frontend -->| Frontend | `Frontend` | `Read docs/team/roles/frontend.md, then docs/delivery/roles/frontend.md, and follow them.` |<!-- /role -->
@@ -46,14 +50,14 @@ Each role is ONE long-lived session with the role's name (`Developer`, `Code Rev
 <!-- role:qa -->| QA | `QA` | `Read docs/team/roles/qa.md, then docs/delivery/roles/qa.md, and follow them.` |<!-- /role -->
 <!-- role:qa-web -->| Web QA | `Web QA` | `Read docs/team/roles/qa-web.md, then docs/delivery/roles/qa-web.md, and follow them.` |<!-- /role -->
 <!-- role:code-reviewer -->| Independent Reviewer | `Code Reviewer` | `Read docs/team/roles/code-reviewer.md, then docs/delivery/roles/code-reviewer.md, and follow them.` |<!-- /role -->
-<!-- role:analyst -->| Business Logic Analyst | `Analyst` | `Read docs/team/roles/analyst.md, then docs/delivery/roles/analyst.md, and follow them.` |<!-- /role -->
+<!-- role:logic-checker -->| Logic Checker | `Logic Checker` | `Read docs/team/roles/logic-checker.md, then docs/delivery/roles/logic-checker.md, and follow them.` |<!-- /role -->
 
 ## When a session loses its context
 
 After two failed attempts at the same thing, do not stack corrections: write a short brief of what was learned, `/clear`, and restart from it (rule 26).
 
 
-Paste the same message again, then: "Read the latest file in `.claude/sessions/` and continue." (Not for the Analyst: it has no session log; the CTO opens a new session with a new export folder.)
+Paste the same message again, then: "Read the latest file in `.claude/sessions/` and continue." (Not for the Logic Checker: it has no session log; the CTO opens a new session with a new export folder.)
 
 ## Waking a sleeping session
 
