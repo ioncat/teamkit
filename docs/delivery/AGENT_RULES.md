@@ -6,7 +6,7 @@
 
 | Rule | In this project |
 |---|---|
-| 1-3 Reports | The CTO session is named `CTO`. The owner's panel: <<none / a page / a file>> |
+| 1-3 Reports | The entry session is named `Product` (the owner talks to it first); the CTO session is named `CTO` and is called by Product. The owner's panel: <<none / a page / a file>> |
 | 4-5 Talking to the owner | Chat language: <<language>>. The first row of the question table carries the tracker id. Product or user-journey questions go first to <<the product-minded agent, if any>>; the owner gets only what is his by nature (pushes, live data writes, restarts, changes to team rules, the decisions marked as his) |
 | 6-7 Commits | The working tree is shared by all sessions. Use a temporary index (`GIT_INDEX_FILE`) when the shared index holds other people's staged changes |
 | 9 File ownership | See the table below |

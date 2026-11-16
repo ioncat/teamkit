@@ -2,7 +2,7 @@
 
 **New here? Read [`QUICKSTART.md`](QUICKSTART.md) (15 minutes).**
 
-Copy this folder as the root of a new project. It gives you the working rules, the role briefs and the project addenda of a team of agent sessions (CTO, backend, frontend, mobile, MCP, product, independent reviewer, web QA) so you can start a full development team in a few steps.
+Copy this folder as the root of a new project. It gives you the working rules, the role briefs and the project addenda of a team of agent sessions (product as the entry role, CTO, backend, frontend, mobile, MCP, independent reviewer, web QA) so you can start a full development team in a few steps.
 
 ## What is inside
 
@@ -30,7 +30,7 @@ claude plugin marketplace add ioncat/teamkit
 claude plugin install teamkit@teamkit
 ```
 
-In Claude Code, open an empty folder and run `/teamkit:init`. Claude acts as the CTO of the new project: it interviews you one question at a time, writes the project files with the generator below, then fills the blanks with you. `/teamkit:update` (read-only for now) tells you what a project built by an older TeamKit needs to catch up. The generator needs Python 3.10 or newer. To try it without installing, run `claude --plugin-dir <this folder>`.
+In Claude Code, open an empty folder and run `/teamkit:init`. Claude acts as the product agent of the new project (the entry role; it calls the CTO for technical matters): it interviews you one question at a time, writes the project files with the generator below, then fills the blanks with you. `/teamkit:update` (read-only for now) tells you what a project built by an older TeamKit needs to catch up. The generator needs Python 3.10 or newer. To try it without installing, run `claude --plugin-dir <this folder>`.
 
 ## Generator
 
@@ -42,8 +42,8 @@ In Claude Code, open an empty folder and run `/teamkit:init`. Claude acts as the
 2. Decide the tracker (an issue board such as Linear, or a `docs/delivery/BACKLOG.md`) and write it into `docs/delivery/AGENT_RULES.md`, row 20.
 3. Fill `CLAUDE.md` (stack, commands, critical rules, no-personal-data rule if the repo is public).
 4. Fill the file ownership table in `docs/delivery/AGENT_RULES.md`: which role owns which folders.
-5. Open the CTO session first and give it its start message from `docs/team/START_PROMPTS.md`. It reads the rules, creates the tracker labels and tells you which sessions to open.
-6. Open the other sessions one by one (each with its start message). A CTO cannot create full sessions itself; you open them, it manages them.
+5. Open the Product session first and give it its start message from `docs/team/START_PROMPTS.md`: it is the entry role, you talk to it. When a question has a technical part it calls the CTO, which reads the rules, creates the tracker labels and decides which sessions to open.
+6. Open the other sessions one by one (each with its start message). The CTO cannot create full sessions itself unless it has a `start_session` tool; you open them, it manages them.
 
 ## Roles you can drop
 

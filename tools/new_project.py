@@ -120,15 +120,15 @@ def normalize(raw):
 # ---------------------------------------------------------------- roles and markers
 
 def pick_roles(a):
-    """Return the list of roles of the team for the answers (preset by depth and kind)."""
+    """Return the list of roles of the team for the answers (preset by depth and kind). The product agent is the entry role of every project and comes first."""
     kind, depth = a["kind"], a["depth"]
     if depth == "research" or kind == "research":
-        roles = ["cto", "product"]
+        roles = ["product", "cto"]
     else:
         ui = {"web": ["frontend"], "mobile": ["mobile"]}.get(kind, [])
-        roles = ["cto", "backend"] + ui + ["code-reviewer"]
+        roles = ["product", "cto", "backend"] + ui + ["code-reviewer"]
         if depth == "product":
-            roles += ["product"] + (["qa-web"] if kind == "web" else [])
+            roles += (["qa-web"] if kind == "web" else [])
     if a["mcp"] and "backend" in roles:
         roles.append("mcp")
     roles += [r for r in a.get("extra_roles", []) if r not in roles]
@@ -208,7 +208,7 @@ def readme(a, roles):
     return (f"# {a['name']}\n\nKind: {a['kind']}. Stack: {a['stack']}. Depth: {a['depth']}. "
             f"Tracker: {TRACKER_TEXT[a['tracker']]}.\n\n"
             "Built by a team of agent sessions under one owner. Start with `CLAUDE.md`, then "
-            "`docs/team/START_PROMPTS.md` (open the CTO session first).\n\n"
+            "`docs/team/START_PROMPTS.md` (open the Product session first: it is the entry role and calls the CTO).\n\n"
             f"Roles: {names}.\n\nFill the remaining blanks (search for the double angle brackets).\n")
 
 
@@ -326,7 +326,7 @@ def main(argv=None):
         return 1
     write(files, out)
     print(git_start(out))
-    print(f"\nNext: open Claude Code in {out}, name the session CTO and paste the CTO row of "
+    print(f"\nNext: open Claude Code in {out}, name the session Product and paste the Product row of "
           "docs/team/START_PROMPTS.md. Then fill the blanks listed above.")
     return 0
 

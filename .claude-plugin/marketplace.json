@@ -8,7 +8,7 @@
     {
       "name": "teamkit",
       "source": "./",
-      "description": "Start a project with a team of Claude Code agents: the CTO interviews you, then TeamKit writes the rules, role briefs and project files."
+      "description": "Start a project with a team of Claude Code agents: the product agent interviews you, then TeamKit writes the rules, role briefs and project files."
     }
   ]
 }

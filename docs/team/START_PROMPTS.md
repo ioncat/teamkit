@@ -1,18 +1,19 @@
 # Start messages and launch order
 
-Check first whether the CTO session has a `start_session` tool (newer Claude Code desktop sessions do; it may be deferred and need loading). If it does, the CTO opens the other sessions itself with the start messages below, on the owner's word. If it does not, you (the owner) open each session and paste its one-line start message. Name the session as shown so the others can find it with `ListAgents`.
+The owner starts with the **Product** session: it is the entry role. When a question has a technical part, the Product agent calls the CTO. Check first whether the Product session has a `start_session` tool (newer Claude Code desktop sessions do; it may be deferred and need loading). If it does, it opens the CTO session itself with the start message below, on the owner's word; the CTO then opens the working roles the same way, on the owner's word. If not, you (the owner) open each session and paste its one-line start message. Name the session as shown so the others can find it with `ListAgents`.
 
 ## Launch order
 
-1. **CTO** (name it `CTO` or `CTO`). It reads the rules, sets up the tracker labels (`by-<role>`, `reviewed`, `needs-owner`) and tells you what to open next.
+1. **Product** (name it `Product`). The first session, the one you talk to. It reads the rules and the roadmap and, when the question is technical, calls the CTO.
+2. **CTO** (name it `CTO`). Opened by the Product agent (or by you) when the first technical question comes. It reads the rules, sets up the tracker labels (`by-<role>`, `reviewed`, `needs-owner`), decides which agents are needed and tells you what to open next.
 <!-- role:backend -->
-2. **Backend** (and the other working roles listed in the table below).
+3. **Backend** (and the other working roles listed in the table below).
 <!-- /role -->
 <!-- role:code-reviewer -->
-3. **Independent Reviewer** (read-only; opened when the first risky change needs a look).
+4. **Independent Reviewer** (read-only; opened when the first risky change needs a look).
 <!-- /role -->
 <!-- role:analyst -->
-4. **Analyst** (read-only; opened by the CTO per request, in a clean export folder, before a flow or an epic is approved; closed after its report; the one role that is NOT a persistent session).
+5. **Analyst** (read-only; opened by the CTO per request, in a clean export folder, before a flow or an epic is approved; closed after its report; the one role that is NOT a persistent session).
 <!-- /role -->
 
 Open them one at a time; each sends the CTO a line "ready".
@@ -36,12 +37,12 @@ Each role is ONE long-lived session with the role's name (`Developer`, `Code Rev
 
 | Role | Session name | Message |
 |---|---|---|
+| Product (entry) | `Product` | `Read docs/team/roles/product.md, then docs/delivery/roles/product.md, then docs/team/AGENT_TEAM_RULES.md and CLAUDE.md, and follow them.` |
 | CTO | `CTO` | `Read docs/team/roles/cto.md, then docs/delivery/roles/cto.md, then docs/team/AGENT_TEAM_RULES.md and CLAUDE.md, and follow them.` |
 <!-- role:backend -->| Backend | `Backend` | `Read docs/team/roles/backend.md, then docs/delivery/roles/backend.md, and follow them.` |<!-- /role -->
 <!-- role:frontend -->| Frontend | `Frontend` | `Read docs/team/roles/frontend.md, then docs/delivery/roles/frontend.md, and follow them.` |<!-- /role -->
 <!-- role:mobile -->| Mobile | `Mobile` | `Read docs/team/roles/mobile.md, then docs/delivery/roles/mobile.md, and follow them.` |<!-- /role -->
 <!-- role:mcp -->| MCP | `MCP` | `Read docs/team/roles/mcp.md, then docs/delivery/roles/mcp.md, and follow them.` |<!-- /role -->
-<!-- role:product -->| Product | `Product` | `Read docs/team/roles/product.md, then docs/delivery/roles/product.md, and follow them.` |<!-- /role -->
 <!-- role:qa-web -->| Web QA | `Web QA` | `Read docs/team/roles/qa-web.md, then docs/delivery/roles/qa-web.md, and follow them.` |<!-- /role -->
 <!-- role:code-reviewer -->| Independent Reviewer | `Code Reviewer` | `Read docs/team/roles/code-reviewer.md, then docs/delivery/roles/code-reviewer.md, and follow them.` |<!-- /role -->
 <!-- role:analyst -->| Business Logic Analyst | `Analyst` | `Read docs/team/roles/analyst.md, then docs/delivery/roles/analyst.md, and follow them.` |<!-- /role -->

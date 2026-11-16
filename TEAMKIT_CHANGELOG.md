@@ -2,6 +2,22 @@
 
 What changed in each version and what a project built from TeamKit must do to update (see `docs/update-mechanism.md`). `docs/team/` is replaced whole; the steps below are for `docs/delivery/` and `CLAUDE.md`.
 
+## 0.4.0 (2026-11-16, the product agent is the entry role)
+
+Changed in `docs/team/` (replaced by the update):
+- `roles/product.md` rewritten: the product agent is the FIRST session the owner talks to; it decides product questions, brings the owner's decisions as the rule 5 table and calls the CTO for the technical part.
+- `roles/cto.md`: the CTO is called by the product agent, decides the technical part and which agents to activate, starts them, reports to the product agent; talks to the owner directly only when he opens its session or a decision is his by nature.
+- `AGENT_TEAM_RULES.md`: rule 29 (the product agent is the entry role) and rule 30 (agreements reach the CTO in one line) appended; the roles line names the product agent.
+- `START_PROMPTS.md`: launch order starts with Product, then CTO (opened by Product on the owner's word); the Product row is always present.
+
+Generator and plugin: every preset now includes the product agent as the FIRST role (before it was an option at depth `product`); `/teamkit:init` interviews as the product agent and, at the end, calls the CTO; README and QUICKSTART say "open the Product session first". A test pins the product role in every preset and its first place.
+
+Not in this version (still planned): the isolation hook with name normalisation and a group refresh script; the rule "reading is free".
+
+Steps for a project built from an earlier version:
+- Replace `docs/team/`. In `docs/delivery/AGENT_RULES.md` row 1-3 add the `Product` session name; if the project has no product role file in `docs/delivery/roles/`, copy the template's `roles/product.md` addendum and fill what it owns.
+- Open a `Product` session and give it its start line; from now on the owner's requests go to it first.
+
 ## 0.3.0 (2026-11-15, first public release; the settings template and hooks pack stays planned for a later version)
 
 Changed in `docs/team/` (replaced by the update):

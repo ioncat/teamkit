@@ -45,7 +45,7 @@ class GeneratorTest(unittest.TestCase):
             out = generate(tmp, kind="web", stack="react", depth="mvp")
             self.assert_clean(out)
             self.assertTrue((out / "docs/team/roles/frontend.md").exists())
-            for gone in ("qa-web", "mobile", "product", "mcp"):
+            for gone in ("qa-web", "mobile", "mcp"):
                 self.assertFalse((out / f"docs/team/roles/{gone}.md").exists(), gone)
             self.assertFalse((out / "docs/delivery/REVIEW_FINDINGS.md").exists())
             self.assertTrue((out / "docs/delivery/CHANGELOG.md").exists())
@@ -99,6 +99,23 @@ class GeneratorTest(unittest.TestCase):
             self.assertIn("flutter analyze", mobile)
             self.assertNotIn("to fill on first use", mobile)
             self.assertIn("Epics", (out / "docs/delivery/documentation-conventions.md").read_text(encoding="utf-8"))
+
+    def test_product_is_the_entry_role_everywhere(self):
+        """The product agent is in every preset and comes first: the owner talks to it, it calls the CTO."""
+        for answers in ({"kind": "research", "depth": "research", "tracker": "backlog"},
+                        {"kind": "web", "stack": "react", "depth": "mvp"},
+                        {"kind": "web", "stack": "react", "depth": "product"}):
+            with tempfile.TemporaryDirectory() as tmp:
+                out = generate(tmp, **answers)
+                roles = json.loads((out / "project.yaml").read_text())["roles"]
+                self.assertEqual(roles[0], "product", answers)
+                self.assertIn("cto", roles)
+                self.assertTrue((out / "docs/team/roles/product.md").exists())
+                self.assertTrue((out / "docs/delivery/roles/product.md").exists())
+                prompts = (out / "docs/team/START_PROMPTS.md").read_text(encoding="utf-8")
+                self.assertIn("| Product (entry) |", prompts)
+                self.assertLess(prompts.index("| Product (entry) |"), prompts.index("| CTO |"))
+                self.assertIn("Product session first", (out / "README.md").read_text(encoding="utf-8"))
 
     def test_research_research(self):
         with tempfile.TemporaryDirectory() as tmp:
