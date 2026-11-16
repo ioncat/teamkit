@@ -1,4 +1,4 @@
-# Role addendum: mobile agent (<<project>>)
+# Role addendum: Mobile agent (<<project>>)
 
 > Role brief: `../../team/roles/mobile.md`. Rules: `../../team/AGENT_TEAM_RULES.md`. Project specifics: [`../AGENT_RULES.md`](../AGENT_RULES.md).
 

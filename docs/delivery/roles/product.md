@@ -1,4 +1,4 @@
-# Role addendum: product agent (<<project>>)
+# Role addendum: Product Manager (<<project>>)
 
 > Role brief: `../../team/roles/product.md`. Rules: `../../team/AGENT_TEAM_RULES.md`. Project specifics: [`../AGENT_RULES.md`](../AGENT_RULES.md).
 

@@ -10,19 +10,19 @@ python tools/new_project.py --out <new folder> --answers answers.json   # no que
 python tools/new_project.py --out <new folder> --dry-run  # plan only, writes nothing
 ```
 
-Questions: kind (web, mobile, service, data-ml, research); stack (for mobile: flutter, react-native, native-ios, native-android, native-both, other; otherwise any text); depth (research, mvp, product); project name; repository public or private; tracker (linear, github, backlog); chat language; documentation level (light, standard, full; defaults from the depth); will users connect their own agents (MCP; default yes for product depth with web or service).
+Questions: kind (web, mobile, service, data-ml, research); stack (for mobile: flutter, react-native, native-ios, native-android, native-both, other; otherwise any text); depth (research, mvp, product); project name; repository public or private; tracker (linear, github, backlog); chat language; documentation level (light, standard, full; defaults from the depth); will users connect their own agents (MCP; default yes for product depth with web or service); does it push messages, spend tokens or write live data (then it gets a stage and the QA role; default yes for product depth, never for research).
 
-Answers file: JSON with the keys `name`, `kind`, `stack`, `depth`, `visibility`, `tracker`, `language`, `docs`, `mcp`.
+Answers file: JSON with the keys `name`, `kind`, `stack`, `depth`, `visibility`, `tracker`, `language`, `docs`, `mcp`, `stage`.
 
-What you get: a new folder with only the roles of the preset, the rules cut to the depth, the blanks the answers can fill already filled, `project.yaml` (answers and template version), `.claude/work_mode` set to `manual`, `git init` and a first commit. What remains: the `<<...>>` blanks only the project can answer (the generator lists them): stack commands, folders per role, tracker key, what counts as personal data. Then open the CTO session with its start message.
+What you get: a new folder with only the roles of the preset, the rules cut to the depth, the blanks the answers can fill already filled, `project.yaml` (answers and template version), `.claude/work_mode` set to `manual`, `git init` and a first commit. What remains: the `<<...>>` blanks only the project can answer (the generator lists them): stack commands, folders per role, tracker key, what counts as personal data. Then open the Product Manager session with its start message (the Product row of `docs/team/START_PROMPTS.md`).
 
 The manual way below stays valid as a fallback.
 
 ## 0. What to know
 
-- The agents work as separate Claude Code sessions. **The CTO does not create permanent agents**: you open the sessions and paste each one's start message. The CTO can write to sessions that already exist, wake sleeping ones and start short-lived subagents.
+- The agents work as separate Claude Code sessions. You open the Product Manager; the Product Manager opens the Business Analyst and the CTO; the CTO opens the delivery roles. Without a `start_session` tool you open each session yourself and paste its start message. The CTO can write to sessions that already exist, wake sleeping ones and start short-lived subagents.
 - The CTO does not write code and is the only one who pushes (after the checks). The others commit locally.
-- Minimal team: **Product + business analyst + CTO + backend + reviewer**. Add the others (frontend, mobile, mcp, product, qa, qa-web) when there is work for them; add `qa` and a stage as soon as the product sends, spends or writes live data.
+- Minimal team: **Product Manager + Business Analyst + CTO + Backend + Reviewer**. Add the others (Frontend, Mobile, MCP, Web QA) when there is work for them; add QA and a stage as soon as the product sends, spends or writes live data.
 
 ## 1. Prepare the folder (5 minutes)
 
@@ -34,21 +34,21 @@ The manual way below stays valid as a fallback.
 4. The other `<<...>>` in the role addenda (`docs/delivery/roles/`) are filled in by the agents on their first task; you may skip them.
 5. Pick a work mode: the file `.claude/work_mode` with one word, `manual` (the default: you work yourself) or `auto` (the agents work almost without you). Start with `manual`.
 
-## 2. Open the Product agent (3 minutes)
+## 2. Open the Product Manager (3 minutes)
 
 1. Open Claude Code (desktop) in the new folder and name the session `Product`.
 2. Paste the first message from `docs/team/START_PROMPTS.md` (the Product row).
-3. The Product agent reads the rules and the roadmap, talks to you about the goal, and calls the CTO when a question is technical. The CTO proposes the tracker and the labels (`by-backend`, `reviewed`, `needs-owner` and so on) and says which agents to open first.
+3. The Product Manager reads the rules and the roadmap, talks to you about the goal, and calls the CTO when a question is technical. The CTO proposes the tracker and the labels (`by-backend`, `reviewed`, `needs-owner` and so on) and says which agents to open first.
 
 ## 3. Open the others (one at a time, 1 minute each)
 
 A new session in the same folder, named as in the table of `START_PROMPTS.md`, with its message pasted in. Each agent tells the CTO "ready" and waits for a task.
 
-Order: backend → reviewer (when the first risky change appears) → the rest as needed.
+Order: Product Manager → Business Analyst → CTO → Backend → Reviewer (when the first risky change appears) → QA (when the first change with an effect needs the stage) → the rest as needed.
 
 ## 4. The first task
 
-Tell the Product agent in plain words what you want first. The business analyst does the discovery and writes the task (`Origin:` as the first line, user story, acceptance criteria); the CTO adds the technical part, hands it to the right agent and accepts the result. You get only: a finished result, a problem, or a decision that belongs to you.
+Tell the Product Manager in plain words what you want first. The Business Analyst does the discovery and writes the task (`Origin:` as the first line, user story, acceptance criteria); the CTO adds the technical part, hands it to the right agent and accepts the result. You get only: a finished result, a problem, or a decision that belongs to you.
 
 ## 5. What you decide
 

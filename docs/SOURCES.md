@@ -36,4 +36,4 @@ The documents TeamKit is built on: its ideological and methodological foundation
 
 ## Our own decisions
 
-TeamKit also carries the owner's decisions and the lessons of the first team that used it: work modes, owner gates, the independent reviewer, file ownership, persistent roles. They are recorded with dates in `docs/team/AGENT_TEAM_RULES.md` (the "Why:" lines), `docs/agentic-sdlc-v1.md` §9 and `TEAMKIT_CHANGELOG.md`.
+TeamKit also carries the owner's decisions and the lessons of the first team that used it: work modes, owner gates, the independent Reviewer, file ownership, persistent roles. They are recorded with dates in `docs/team/AGENT_TEAM_RULES.md` (the "Why:" lines), `docs/agentic-sdlc-v1.md` §9 and `TEAMKIT_CHANGELOG.md`.

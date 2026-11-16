@@ -34,14 +34,15 @@ TRACKER_TEXT = {"linear": "Linear", "github": "GitHub Issues", "backlog": "`docs
 ALL_ROLES = ["cto", "backend", "frontend", "mobile", "mcp", "product", "analyst", "qa", "qa-web", "code-reviewer"]
 OPTIONAL_ROLES: list[str] = []  # no optional roles now; a project opts in with the answer "extra_roles"
 # extra roles of earlier versions: the logic check (called "analyst" before 0.4.2, "logic-checker" in 0.4.2 drafts) is now the reviewer's
-# "logic and flows" lens, and the business analyst is in every preset; such answers are accepted and dropped with a note
+# "logic and flows" lens, and the Business Analyst is in every preset; such answers are accepted and dropped with a note
 LEGACY_EXTRA = {"analyst", "logic-checker"}
 EXCLUDE_TOP = {".git", ".pytest_cache", "tools", "TEMPLATE_VERSION", "README.md", "QUICKSTART.md", "QUICKSTART.ru.md", "TEAMKIT_CHANGELOG.md",
                # not for a new project: TeamKit's own plugin files, its license, and local working folders
                ".claude-plugin", "skills", "LICENSE", ".scratch", ".claude", ".worktrees"}
 EXCLUDE_DIRS = ("docs/knowledge/",)  # knowledge sources for TeamKit itself, not for new projects
 EXCLUDE_FILES = {"docs/template-design.md", "docs/SOURCES.md", "docs/ears-ste-decision.md", "docs/agentic-sdlc-v1.md", "docs/agentic-sdlc-draft-v0.md",
-                 "docs/agentic-sdlc-sources.md", "docs/agentic-sdlc-critique-main.md", "docs/agentic-sdlc-critique-reviewer.md"}
+                 "docs/agentic-sdlc-sources.md", "docs/agentic-sdlc-critique-main.md", "docs/agentic-sdlc-critique-reviewer.md",
+                 "docs/delivery/TEAMKIT_BACKLOG.md"}  # TeamKit's own working list, never copied into a project
 IOS_ANDROID = {"mobile-ios": "Mobile iOS", "mobile-android": "Mobile Android"}
 
 MARKER = re.compile(
@@ -89,7 +90,7 @@ def interview():
         "docs": ask("Documentation level", DOC_LEVELS, DEFAULT_DOCS[depth]),
         "mcp": ask("Will users connect their own agents (MCP)?", ["yes", "no"], mcp_default) == "yes",
         "extra_roles": [],
-        "stage": ask("Does it push messages, spend tokens or write live data (then it gets a stage and a QA role)?", ["yes", "no"], "yes" if depth == "product" else "no") == "yes",
+        "stage": ask("Does it push messages, spend tokens or write live data (then it gets a stage and the QA role)?", ["yes", "no"], "yes" if depth == "product" else "no") == "yes",
         "work_mode": "manual",
     }
 
@@ -117,14 +118,17 @@ def normalize(raw):
     if isinstance(extra, list):
         dropped = [r for r in extra if r in LEGACY_EXTRA]
         if dropped:
-            print(f"Note: extra role(s) {dropped} are no longer separate roles: the logic check is the reviewer's 'logic and flows' lens, "
-                  "and the business analyst is in every team.")
+            print(f"Note: extra role(s) {dropped} are no longer separate roles: the logic check is the Reviewer's 'logic and flows' lens, "
+                  "and the Business Analyst is in every team.")
         extra = [r for r in extra if r not in LEGACY_EXTRA]
     if not isinstance(extra, list) or any(r not in OPTIONAL_ROLES for r in extra):
         raise SystemExit(f"answers: 'extra_roles' must be a list from {OPTIONAL_ROLES}")
     a["extra_roles"] = extra
     stage = a.get("stage", False)
     a["stage"] = stage == "yes" if isinstance(stage, str) else bool(stage)
+    if a["stage"] and (a["depth"] == "research" or a["kind"] == "research"):
+        print("Note: a research project has no stage and no QA role; the stage answer is ignored.")
+        a["stage"] = False
     a["work_mode"] = "manual"
     return a
 
@@ -132,18 +136,18 @@ def normalize(raw):
 # ---------------------------------------------------------------- roles and markers
 
 def pick_roles(a):
-    """Return the list of roles of the team for the answers (preset by depth and kind). The product agent is the entry role of every project and comes first;
-    the business analyst (discovery and the tasks) is in every preset, research included, because the CTO no longer writes the issues."""
+    """Return the list of roles of the team for the answers (preset by depth and kind). The Product Manager is the entry role of every project and comes first;
+    the Business Analyst (discovery and the tasks) is in every preset, research included, because the CTO never writes the issues. QA comes only with a stage."""
     kind, depth = a["kind"], a["depth"]
     if depth == "research" or kind == "research":
         roles = ["product", "analyst", "cto"]
     else:
         ui = {"web": ["frontend"], "mobile": ["mobile"]}.get(kind, [])
         roles = ["product", "analyst", "cto", "backend"] + ui + ["code-reviewer"]
-        if depth == "product":
-            roles += ["qa"] + (["qa-web"] if kind == "web" else [])
-        if a.get("stage") and "qa" not in roles:
-            roles.append("qa")  # a project with a stage needs the role that runs it (rule 31)
+        if a.get("stage"):
+            roles.append("qa")  # QA runs the stage (rule 31): only a project with a stage has it
+        if depth == "product" and kind == "web":
+            roles.append("qa-web")
     if a["mcp"] and "backend" in roles:
         roles.append("mcp")
     roles += [r for r in a.get("extra_roles", []) if r not in roles]
@@ -272,7 +276,7 @@ def render(a, template=ROOT):
     files["README.md"] = readme(a, [n for r in roles for n in variants[r]])
     if a["tracker"] == "backlog":
         files["docs/delivery/BACKLOG.md"] = "# Backlog\n\nOpen tasks, one per line: `Origin:` first, then `Value:`.\n"
-    if a.get("stage") and "qa" in roles:
+    if "qa" in roles:
         files["docs/delivery/STAGE.md"] = STAGE_STUB
         files["docs/delivery/qa/README.md"] = "# QA scenarios" + chr(10) * 2 + "One file per feature: the steps, the expected result, the level (backend by HTTP, app without a window, app with a window). Written by the QA role." + chr(10)
     files["project.yaml"] = json.dumps(

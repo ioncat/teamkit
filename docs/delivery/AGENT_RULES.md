@@ -7,7 +7,7 @@
 | Rule | In this project |
 |---|---|
 | 1-3 Reports | The entry session is named `Product` (the owner talks to it first); the CTO session is named `CTO` and is called by Product. The owner's panel: <<none / a page / a file>> |
-| 4-5 Talking to the owner | Chat language: <<language>>. The first row of the question table carries the tracker id. Product or user-journey questions go first to <<the product-minded agent, if any>>; the owner gets only what is his by nature (pushes, live data writes, restarts, changes to team rules, the decisions marked as his) |
+| 4-5 Talking to the owner | Chat language: <<language>>. The first row of the question table carries the tracker id. Product or user-journey questions go first to <<the Product Manager, if any>>; the owner gets only what is his by nature (pushes, live data writes, restarts, changes to team rules, the decisions marked as his) |
 | 6-7 Commits | The working tree is shared by all sessions. Use a temporary index (`GIT_INDEX_FILE`) when the shared index holds other people's staged changes |
 | 9 File ownership | See the table below |
 <!-- kind:web,mobile,service,data-ml -->| 10 Database | The live DB is <<path>>; backups go to <<path>>; a migration is an idempotent startup step; a live write waits for the owner's word |<!-- /kind -->
@@ -17,7 +17,7 @@
 | 15 Docs | `CHANGELOG.md` and the tracker issue closed by the CTO, per `documentation-conventions.md` |
 <!-- kind:web,mobile -->| 16 UI | <<How the owner confirms a visual change; is there a browser preview?>> |<!-- /kind -->
 <!-- kind:web,mobile,service,data-ml -->| 19 Tests and the live DB | A fixture sets the DB path to a throwaway file for every test: <<file>> |<!-- /kind -->
-| 20 Task tracker | The board is <<Linear / GitHub Issues / BACKLOG.md>>, key <<PRJ>>. Only the CTO writes to it (among agents). Each handout carries an issue id; name it in your report and commit message. Issue format: `Origin:` first (who asked, when, in what words); user-facing issues use User story + Given/When/Then + edge cases + out of scope + dependencies; technical ones the short form Every issue also carries a `Value:` line right after `Origin:` (what gets better and for whom); an issue without it is not handed out. |
+| 20 Task tracker | The board is <<Linear / GitHub Issues / BACKLOG.md>>, key <<PRJ>>. Among agents, the Business Analyst creates the issues and writes their description; the CTO adds the technical part, labels, states, assignment and closing (rule 20); no other agent writes there. Each handout carries an issue id; name it in your report and commit message. Issue format: `Origin:` first (who asked, when, in what words); user-facing issues use User story + Given/When/Then + edge cases + out of scope + dependencies; technical ones the short form Every issue also carries a `Value:` line right after `Origin:` (what gets better and for whom); an issue without it is not handed out. |
 | 21 Labels | <!-- role:backend -->`by-backend`, <!-- /role --><!-- role:frontend -->`by-frontend`, <!-- /role --><!-- role:mobile -->`by-mobile`, <!-- /role --><!-- role:mcp -->`by-mcp`, <!-- /role --><!-- role:product -->`by-product`, <!-- /role -->`by-cto`, <!-- role:qa,qa-web -->`by-qa`, <!-- /role --><!-- role:code-reviewer -->`reviewed`, <!-- /role -->`needs-owner` |
 | 18 Session log | `.claude/sessions/YYYY-MM-DD-short-description.md` (gitignored) |
 
@@ -37,7 +37,7 @@
 <!-- /role -->
 <!-- role:qa -->| QA | `docs/delivery/qa/` (scenario files) and its own test harness folder; read-only otherwise |<!-- /role -->
 <!-- role:qa-web -->| Web QA | the smoke plan in `docs/delivery/`; read-only otherwise |<!-- /role -->
-<!-- role:analyst -->| Business analyst | the issues in the tracker (creates them and writes their description, rule 20), discovery notes in `docs/discovery/`; read-only otherwise |<!-- /role -->
+<!-- role:analyst -->| Business Analyst | the issues in the tracker (creates them and writes their description, rule 20), discovery notes in `docs/discovery/`; read-only otherwise |<!-- /role -->
 <!-- depth:mvp,product -->| Shared, each for its own entries | `docs/delivery/CHANGELOG.md` |<!-- /depth -->
 
 ## Role addenda
@@ -51,4 +51,4 @@
 <!-- role:qa -->- [qa](roles/qa.md)<!-- /role -->
 <!-- role:qa-web -->- [qa-web](roles/qa-web.md)<!-- /role -->
 <!-- role:code-reviewer -->- [code-reviewer](roles/code-reviewer.md)<!-- /role -->
-<!-- role:analyst -->- [analyst](roles/analyst.md)<!-- /role -->
+<!-- role:analyst -->- [Analyst](roles/analyst.md)<!-- /role -->

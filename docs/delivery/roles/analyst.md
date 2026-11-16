@@ -6,7 +6,7 @@
 - Tracker and issue format: <<the tracker, its project key, the issue template or a link to the documentation conventions>>.
 - Discovery notes live in: `docs/discovery/` (one file per request larger than a few lines of criteria, named `<topic>-YYYY-MM-DD.md`).
 - What you may read to check a claim: the code, the schema, `GLOSSARY.md`, the documents in `docs/`; live data only read-only and only <<where and how, or "never">>.
-- Who answers product questions: the product agent; questions that are the owner's go to him through the product agent as the rule 5 table.
+- Who answers product questions: the Product Manager; questions that are the owner's go to him through the Product Manager as the rule 5 table.
 - Labels (rule 21): you write issues but do not execute them, so there is no `by-analyst`.
 - Never read personal files or user profiles.
 <!-- /role -->

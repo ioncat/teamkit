@@ -1,19 +1,22 @@
 # Start messages and launch order
 
-The owner starts with the **Product** session: it is the entry role. When a question has a technical part, the Product agent calls the CTO. Check first whether the Product session has a `start_session` tool (newer Claude Code desktop sessions do; it may be deferred and need loading). If it does, it opens the CTO session itself with the start message below, on the owner's word; the CTO then opens the working roles the same way, on the owner's word. If not, you (the owner) open each session and paste its one-line start message. Name the session as shown so the others can find it with `ListAgents`.
+The owner starts with the **Product Manager** session: it is the entry role. It opens the two planning roles, the Business Analyst and the CTO; the CTO opens the delivery roles. Check first whether the Product session has a `start_session` tool (newer Claude Code desktop sessions do; it may be deferred and need loading). If it does, it opens the Business Analyst and the CTO sessions itself with the start messages below, on the owner's word; the CTO then opens the delivery roles the same way, on the owner's word. If not, you (the owner) open each session and paste its one-line start message. Name the session as shown so the others can find it with `ListAgents`.
 
 ## Launch order
 
-1. **Product** (name it `Product`). The first session, the one you talk to. It reads the rules and the roadmap and, when the question is technical, calls the CTO.
+1. **Product Manager** (name it `Product`). The first session, the one you talk to. It reads the rules and the roadmap, then opens the Business Analyst and the CTO.
 <!-- role:analyst -->
-2. **Business Analyst** (name it `Analyst`). Opened with the Product session or right after it: it does the discovery of each request and writes the issues.
+2. **Business Analyst** (name it `Analyst`). Opened by the Product Manager: it does the discovery of each request and writes the issues.
 <!-- /role -->
-3. **CTO** (name it `CTO`). Opened by the Product agent (or by you) when the first technical question or the first written issue comes. It reads the rules, sets up the tracker labels (`by-<role>`, `reviewed`, `needs-owner`), decides which agents are needed and tells you what to open next.
+3. **CTO** (name it `CTO`). Opened by the Product Manager (or by you) when the first technical question or the first written issue comes. It reads the rules, sets up the tracker labels (`by-<role>`, `reviewed`, `needs-owner`), decides which agents are needed and tells you what to open next.
 <!-- role:backend -->
-4. **Backend** (and the other working roles listed in the table below).
+4. **Backend** (and the other delivery roles listed in the table below), opened by the CTO.
+<!-- /role -->
+<!-- role:qa -->
+5. **QA** (name it `QA`), opened by the CTO when the first change with an effect needs the stage (rule 31).
 <!-- /role -->
 <!-- role:code-reviewer -->
-5. **Independent Reviewer** (read-only; opened when the first risky change needs a look).
+6. **Reviewer** (read-only; opened by the CTO when the first risky change needs a look).
 <!-- /role -->
 
 Open them one at a time; each sends the CTO a line "ready".

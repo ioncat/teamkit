@@ -1,6 +1,6 @@
 # EARS and ASD-STE100: should the agentic SDLC adopt them?
 
-**Status:** analysis for the owner, 2026-10-28. Inputs: the reviewer (critic seat), Main (prompt owner, PdM), Flutter (implementer). Backend's answer pending; added when it comes.
+**Status:** analysis for the owner, 2026-10-28. Inputs: the Reviewer (critic seat), Main (prompt owner, PdM), Flutter (implementer). Backend's answer pending; added when it comes.
 
 ## What was asked
 
@@ -25,7 +25,7 @@ ASD-STE100 Simplified Technical English: a controlled language for all agent ins
 | **Opportunities** | **Threats** |
 | EARS examples become the drift check's ids; a spec-lane pilot can measure it. A light agent-text style (imperative, one instruction per sentence) makes role files easier to check. | Ritual: "shall" everywhere, ACs that pass the template but test the wrong thing ("the system shall work properly"). A mass STE rewrite of prompts loses nuance and regresses CV quality. Enforcement only local, so both drift. |
 
-**The strongest argument against (reviewer):** our failures come from what was never written, not from how it was written. A controlled language polishes the sentences we have; it adds none of the missing ones. EARS is the exception because its templates *ask* for the missing case.
+**The strongest argument against (Reviewer):** our failures come from what was never written, not from how it was written. A controlled language polishes the sentences we have; it adds none of the missing ones. EARS is the exception because its templates *ask* for the missing case.
 
 ## Recommendation (consensus)
 
@@ -42,4 +42,4 @@ ASD-STE100 Simplified Technical English: a controlled language for all agent ins
   - Kill: specs get longer with no fewer post-code findings, or the owner has to read EARS to approve.
 - **Reversible pilot, not a rule:** one feature, then decide. Rules are added to the template only after the pilot passes.
 - **Base rate check:** compare with the last 3 comparable features (title verdict: 4 review rounds, 5 findings, 2 Medium).
-- **A dissenting seat:** the reviewer keeps the critic role for the pilot's review.
+- **A dissenting seat:** the Reviewer keeps the critic role for the pilot's review.

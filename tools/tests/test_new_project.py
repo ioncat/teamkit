@@ -83,7 +83,7 @@ class GeneratorTest(unittest.TestCase):
                 self.assertIn("Logic and flows", (out / "docs/team/roles/code-reviewer.md").read_text(encoding="utf-8"))
 
     def test_business_analyst_writes_the_tasks_everywhere(self):
-        """The business analyst is in every preset (research included): it writes the issues, the CTO no longer does."""
+        """The Business Analyst is in every preset (research included): it writes the issues, the CTO never does."""
         for answers in ({"kind": "research", "depth": "research", "tracker": "backlog"},
                         {"kind": "web", "stack": "react", "depth": "mvp"},
                         {"kind": "service", "stack": "python", "depth": "product"}):
@@ -98,7 +98,7 @@ class GeneratorTest(unittest.TestCase):
                 prompts = (out / "docs/team/START_PROMPTS.md").read_text(encoding="utf-8")
                 self.assertLess(prompts.index("| Business Analyst |"), prompts.index("| CTO |"))
                 rules = (out / "docs/team/AGENT_TEAM_RULES.md").read_text(encoding="utf-8")
-                self.assertIn("the **business analyst** creates issues", rules)
+                self.assertIn("the **Business Analyst** creates issues", rules)
 
     def test_extra_roles_validated(self):
         with self.assertRaises(SystemExit):
@@ -116,7 +116,7 @@ class GeneratorTest(unittest.TestCase):
             self.assertIn("Epics", (out / "docs/delivery/documentation-conventions.md").read_text(encoding="utf-8"))
 
     def test_product_is_the_entry_role_everywhere(self):
-        """The product agent is in every preset and comes first: the owner talks to it, it calls the CTO."""
+        """The Product Manager is in every preset and comes first: the owner talks to it, it opens the Business Analyst and the CTO."""
         for answers in ({"kind": "research", "depth": "research", "tracker": "backlog"},
                         {"kind": "web", "stack": "react", "depth": "mvp"},
                         {"kind": "web", "stack": "react", "depth": "product"}):
@@ -178,9 +178,16 @@ class GeneratorTest(unittest.TestCase):
             self.assertIn("rule 31", (out / "docs/delivery/documentation-conventions.md").read_text(encoding="utf-8"))
             self.assert_clean(out)
         with tempfile.TemporaryDirectory() as tmp:
-            out = generate(tmp, kind="web", stack="react", depth="product")  # product: qa and qa-web
-            self.assertTrue((out / "docs/team/roles/qa.md").exists())
+            out = generate(tmp, kind="web", stack="react", depth="product")  # product without a stage: qa-web, no qa
+            self.assertFalse((out / "docs/team/roles/qa.md").exists())
             self.assertTrue((out / "docs/team/roles/qa-web.md").exists())
+        with tempfile.TemporaryDirectory() as tmp:
+            out = generate(tmp, kind="web", stack="react", depth="product", stage=True)  # with a stage: qa and its STAGE.md
+            self.assertTrue((out / "docs/team/roles/qa.md").exists())
+            self.assertTrue((out / "docs/delivery/STAGE.md").exists())
+        with tempfile.TemporaryDirectory() as tmp:
+            out = generate(tmp, kind="service", stack="python", depth="mvp", mcp=False)
+            self.assertNotIn("TEAMKIT_BACKLOG", " ".join(str(p) for p in out.rglob("*")))  # TeamKit's own list is never copied
         with tempfile.TemporaryDirectory() as tmp:
             out = generate(tmp, kind="research", depth="research", mcp=False, stage=True)  # research never gets a stage role
             self.assertFalse((out / "docs/team/roles/qa.md").exists())
