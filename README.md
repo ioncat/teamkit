@@ -21,22 +21,29 @@ One agent doing everything mixes product questions, code, reviews and tests in o
 
 Roles are plain Markdown briefs: add a role, give one deeper skills (a checklist, a playbook, a Claude Code skill), or drop the ones a project does not need.
 
-## How a change flows
+## How a project runs
 
 ```mermaid
 flowchart LR
-    O([You]) --> P[Product]
-    P --> A[Business analyst]
-    A -->|issue + acceptance criteria| C[CTO]
-    C -->|assigned| D[Developer]
-    D --> R[Reviewer]
-    D --> Q[QA on a stage]
-    R --> C
-    Q --> C
-    C -->|merge| M[(main)]
+    O([You]) -->|/teamkit:init| P["Product<br/>what to build and why"]
+    P --> A["Business analyst<br/>specs: stories + criteria"]
+    P -.-> C
+    A --> C["CTO<br/>architecture, plan"]
+    C --> T
+    subgraph T["Delivery team"]
+        direction TB
+        B[Backend] ~~~ F[Frontend]
+        Q[QA] ~~~ R[Reviewer]
+    end
+    T -->|iterates spec by spec| MVP([MVP])
 ```
 
-You talk to Product; you decide goals, money, live data and anything irreversible.
+1. **Product** onboards you: what product you need, for whom, what goes first.
+2. **Business analyst** formalises it into specs (user stories, acceptance criteria): the Spec-Driven Development documentation. The CTO may join this step early.
+3. **CTO** turns the specs into architecture and a technical plan, and starts the team.
+4. **The delivery team** (backend, frontend, QA, reviewer) builds spec by spec, each change tested and reviewed, until the MVP.
+
+You decide goals, money, live data and anything irreversible.
 
 ## Principles
 
