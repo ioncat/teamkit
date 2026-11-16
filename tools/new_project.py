@@ -211,9 +211,9 @@ STAGE_STUB = """# Stage
 
 The stage is a second instance of the project, started from the branch under test, with a copy of the data and every outward channel replaced (rule 31). Nothing reaches the owner's live system before a change has passed QA here.
 
-Fill in (the CTO writes this with the backend agent; the owner approves the launcher script once):
+Fill in (the CTO writes this with the backend agent):
 
-- Start and stop: <<launcher script, address, port>> (services are started only with the owner's launcher).
+- Start and stop: <<launcher script, address, port>> (the live system's services are started only with the owner's launcher; the stage is started and stopped by QA and the backend).
 - Data: the copy is made from the live data opened read-only: <<snapshot command>>. Keep it out of git (`db/stage*`).
 - Outward channels replaced: messages, pushes and mail write to `logs/stage_outbound.log`; paid services are replaced by <<stand-in>>; a real call only on the owner's word, per run.
 - Start guard: the stage refuses to start on the live data file, on the live port, or with a secret present (`.env.stage` carries none).

@@ -43,7 +43,7 @@ Roles used below: **owner** (the human), **product agent** (the entry role: the 
 ## Data and services
 
 10. **Database:** back it up before any write. Bulk changes also follow the bulk-data rule: backup, dry run that diffs **all** columns (including side effects such as `updated_at`), regression test, verify the counts after. Prepare a live write, then wait for the owner's explicit word.
-11. **Services:** never start or stop a running service yourself. Tests with mocks are fine; if a check needs the live service, ask the owner. Exception: a project with a `WORK_MODES.md` in `auto` mode, where the CTO may restart the backend and an agent asks the CTO first (the owner's own application is never started, stopped or restarted by an agent).
+11. **Services:** never start or stop a running service yourself. Tests with mocks are fine; if a check needs the live service, ask the owner. Exception: a project with a `WORK_MODES.md` in `auto` mode, where the CTO may restart the backend and an agent asks the CTO first (the owner's own application is never started, stopped or restarted by an agent). Exception: the project's STAGE (rule 31) is started and stopped by the agents that use it (QA, the backend), because it runs on a copy of the data, has every outward channel replaced and refuses to start on the live database, the live port or any token; real model calls on the stage and windowed runs still need the owner's word.
 12. **Personal data:** nothing personal in tracked files of a public repo. Fixtures: synthetic ones in the repo, real ones local and gitignored. A personal profile or private document is changed only through a draft and the owner's explicit yes.
 
 ## Safety between agents

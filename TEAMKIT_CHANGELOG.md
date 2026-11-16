@@ -9,6 +9,7 @@ Changed in `docs/team/` (replaced by the update):
 - `AGENT_TEAM_RULES.md`: rule 31 appended (a change with a visible, outward, token, setting or migration effect runs on the stage and passes QA before it reaches the owner's live system).
 - `FILE_LAYOUT.md`: stage items (`db/stage*`, `logs/stage_outbound.log`, `.env.stage`, `docs/delivery/STAGE.md`, `docs/delivery/qa/`).
 - `START_PROMPTS.md`: a QA row.
+- `AGENT_TEAM_RULES.md` rule 11 and `roles/qa.md`: the stage is started and stopped by the agents that use it (QA, the backend); the live system's services stay the owner's; real model calls on the stage and windowed runs still need his word.
 
 A project built from an earlier version does this to update (see `docs/update-mechanism.md`):
 1. Replace `docs/team/` whole. If the project pushes messages, spends tokens or writes live data: add `docs/delivery/roles/qa.md` from the template, a QA row and a `by-qa` label mention in `docs/delivery/AGENT_RULES.md`, and write `docs/delivery/STAGE.md` (start, data copy, replaced channels, start guard, fixtures) with the backend agent. The owner approves the stage launcher once.

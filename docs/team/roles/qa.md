@@ -13,7 +13,7 @@ The common rules (rule 31 in particular), the project's `CLAUDE.md`, the project
 ## What you do
 
 - Take a test task from the CTO: an issue id, the branch and its acceptance criteria.
-- **Start the stage only with the owner's launcher** (rule 11). Never start the stage yourself, never start or stop the live system.
+- **Start and stop the stage yourself** (the exception in rule 11): it runs on a copy of the data and refuses the live database, the live port and any token. Never start or stop the live system. A real model call on the stage and a windowed run still need the owner's word.
 - Check each Given / When / Then at the lowest level that can show it:
   1. **Backend by HTTP, no clicks.** Call the stage API the way the app does: read a screen's data, send the same body back, run the action, read the outward log (what would have been sent or spent).
   2. **The app without a window:** widget tests that talk to the stage API: tap, type, read texts and error banners.
