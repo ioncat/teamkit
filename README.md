@@ -2,7 +2,7 @@
 
 **Run a small software team of AI coding agents, and stay in control of it.**
 
-TeamKit is my own practical take on **Spec-Driven Development (SDD)** for building products with AI agents: the specification (a user story and acceptance criteria) comes first, the agents build against it, and independent checks hold the work to it.
+TeamKit is my own practical take on **Spec-Driven Development (SDD)** for building products with AI agents: the specification (a user story and acceptance criteria) comes first, the agents build against it, and independent checks hold the work to it. It builds on the method of [GitHub Spec Kit](https://github.com/github/spec-kit) and adds what Spec Kit leaves out: a team of agents with separate roles and a release gate (see [How it relates to Spec Kit](#how-it-relates-to-github-spec-kit)).
 
 It is a ready-made way of working for a team of [Claude Code](https://claude.com/claude-code) agents. Each agent is a separate session with one role (product, CTO, backend, frontend, independent reviewer, QA, ...). The roles share one set of rules: who decides what, how work is specified before it is built, who checks it, and what reaches your live system. You install it, answer a short interview, and get a project folder in which those agents can start working.
 
@@ -74,6 +74,14 @@ Not every project needs every role. The generator picks a preset by the kind and
 - **Nothing first runs on the live system.** Changes that show, store, send, spend or migrate go through the stage and QA first.
 - **Short, faithful reporting.** A failing test or a skipped step is said plainly; one line per event.
 - **Rules grow from real mistakes,** and a mistake that repeats becomes an automatic check.
+
+## How it relates to GitHub Spec Kit
+
+[Spec Kit](https://github.com/github/spec-kit) describes how one agent goes from a spec to code: constitution, specify, clarify, plan, tasks, analyze, implement. TeamKit takes that method as its base and puts it into a team:
+
+- **Taken from Spec Kit:** the constitution (here: the common team rules plus the project's non-negotiables), acceptance criteria as examples with ids, `[NEEDS CLARIFICATION]` instead of guessing, and gates that check the plan before any code is written.
+- **Added by TeamKit:** separate roles that hand work to each other through files and the tracker; an independent reviewer and a QA stage instead of self-checking; decision classes (what an agent decides, what goes to the owner); contracts at the seams between backend, app and agents; one owner who keeps the goals and the irreversible decisions.
+- **Kept lighter:** the plan and tasks live in the tracker issue, not in extra files per feature, and the full spec lane is used where the risk calls for it.
 
 ## Get started
 
