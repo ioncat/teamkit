@@ -12,7 +12,7 @@ One agent doing everything mixes product questions, code, reviews and tests in o
 
 | Role | Does |
 |---|---|
-| **Product** | Your first contact. Strategy and positioning, market and competitor analysis, validation of your ideas, priorities and the roadmap's meaning, user-visible texts; brings you only the decisions that are yours, with a recommendation |
+| **Product manager** | Your first contact. Strategy and positioning, market and competitor analysis, validation of your ideas, priorities and the roadmap's meaning, user-visible texts; brings you only the decisions that are yours, with a recommendation |
 | **Business analyst** | Discovery of each request: what exists, the users and edge cases, open questions; writes each task as a user story with Given / When / Then acceptance criteria and what is out of scope |
 | **CTO** | Architecture and technical decisions; adds feasibility, effort and technical notes to each task, picks and starts the right agent, keeps the tracker true, merges only verified work; writes no product code |
 | **Backend / Frontend / Mobile** | Build in their own area and branch, test first, report one commit hash; never push, never touch another role's files |
@@ -25,7 +25,7 @@ Roles are plain Markdown briefs: add a role, give one deeper skills (a checklist
 
 ```mermaid
 flowchart LR
-    O([You]) -->|/teamkit:init| P["Product<br/>what to build and why"]
+    O([You]) -->|/teamkit:init| P["Product manager<br/>what to build and why"]
     P --> A["Business analyst<br/>specs: stories + criteria"]
     P -.-> C
     A --> C["CTO<br/>architecture, plan"]
@@ -38,7 +38,7 @@ flowchart LR
     T -->|iterates spec by spec| MVP([MVP])
 ```
 
-1. **Product** onboards you: what product you need, for whom, what goes first.
+1. **The product manager** (an agent) interviews you: what you want to build, for whom, what goes first.
 2. **Business analyst** formalises it into specs (user stories, acceptance criteria): the Spec-Driven Development documentation. The CTO may join this step early.
 3. **CTO** turns the specs into architecture and a technical plan, and starts the team.
 4. **The delivery team** (backend, frontend, QA, reviewer) builds spec by spec, each change tested and reviewed, until the MVP.
