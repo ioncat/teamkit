@@ -69,22 +69,18 @@ class GeneratorTest(unittest.TestCase):
             self.assertEqual(sorted(p.name for p in (out / ".scratch").iterdir()), ["README.md"])
             self.assertEqual(sorted(p.name for p in (out / ".claude").iterdir()), ["work_mode"])
 
-    def test_logic_checker_is_opt_in(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            out = generate(tmp, kind="web", stack="react", depth="product")
-            self.assert_clean(out)
-            for gone in ("docs/team/roles/logic-checker.md", "docs/delivery/roles/logic-checker.md", "docs/delivery/LOGIC_FINDINGS.md"):
-                self.assertFalse((out / gone).exists(), gone)
-            self.assertNotIn("logic checker", (out / "docs/delivery/AGENT_RULES.md").read_text(encoding="utf-8").lower())
-        for extra in (["logic-checker"], ["analyst"]):  # "analyst" is the pre-0.4.2 name of the check
+    def test_logic_check_is_the_reviewers_lens(self):
+        """No separate Logic Checker: the logic and flows check is a lens of the reviewer; old extra_roles answers are accepted and dropped."""
+        for extra in ([], ["logic-checker"], ["analyst"]):
             with tempfile.TemporaryDirectory() as tmp:
                 out = generate(tmp, kind="web", stack="react", depth="product", extra_roles=extra)
                 self.assert_clean(out)
-                for kept in ("docs/team/roles/logic-checker.md", "docs/delivery/roles/logic-checker.md", "docs/delivery/LOGIC_FINDINGS.md"):
-                    self.assertTrue((out / kept).exists(), kept)
-                self.assertIn("roles/logic-checker.md", (out / "docs/delivery/AGENT_RULES.md").read_text(encoding="utf-8"))
-                self.assertIn("`Logic Checker`", (out / "docs/team/START_PROMPTS.md").read_text(encoding="utf-8"))
-                self.assertIn("logic-checker", json.loads((out / "project.yaml").read_text())["roles"])
+                for gone in ("docs/team/roles/logic-checker.md", "docs/delivery/roles/logic-checker.md", "docs/delivery/LOGIC_FINDINGS.md"):
+                    self.assertFalse((out / gone).exists(), gone)
+                for f in ("docs/delivery/AGENT_RULES.md", "docs/team/START_PROMPTS.md", "docs/team/AGENT_TEAM_RULES.md"):
+                    self.assertNotIn("logic checker", (out / f).read_text(encoding="utf-8").lower(), f)
+                self.assertNotIn("logic-checker", json.loads((out / "project.yaml").read_text())["roles"])
+                self.assertIn("Logic and flows", (out / "docs/team/roles/code-reviewer.md").read_text(encoding="utf-8"))
 
     def test_business_analyst_writes_the_tasks_everywhere(self):
         """The business analyst is in every preset (research included): it writes the issues, the CTO no longer does."""

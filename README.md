@@ -1,141 +1,62 @@
 # TeamKit
 
-**Run a small software team of AI coding agents, and stay in control of it.**
+**Helps you set up, run and operate a team of Claude Code agents, from spec to merge.**
 
-TeamKit is my own practical take on **Spec-Driven Development (SDD)** for building products with AI agents: the specification (a user story and acceptance criteria) comes first, the agents build against it, and independent checks hold the work to it. It builds on the method of [GitHub Spec Kit](https://github.com/github/spec-kit) and adds what Spec Kit leaves out: a team of agents with separate roles and a release gate (see [How it relates to Spec Kit](#how-it-relates-to-github-spec-kit)).
+TeamKit is a practical take on **Spec-Driven Development**: the spec (user story and acceptance criteria) comes first, agents build against it, independent checks hold the work to it. It builds on [GitHub Spec Kit](https://github.com/github/spec-kit) and adds what Spec Kit leaves out: a team of agents with separate roles, and gates before anything reaches your live system.
 
-It is a ready-made way of working for a team of [Claude Code](https://claude.com/claude-code) agents. Each agent is a separate session with one role (product, CTO, backend, frontend, independent reviewer, QA, ...). The roles share one set of rules: who decides what, how work is specified before it is built, who checks it, and what reaches your live system. You install it, answer a short interview, and get a project folder in which those agents can start working.
+For anyone who builds a real product with [Claude Code](https://claude.com/claude-code) and has outgrown one long chat.
 
-**New here? Read [`QUICKSTART.md`](QUICKSTART.md) (15 minutes).**
+## Why a team, not one agent
 
-## Who it is for
+One agent doing everything mixes product questions, code, reviews and tests in one context: it forgets, drifts and grades its own work. In TeamKit each agent is a separate session that knows one area well and keeps its context clean; agents hand work to each other through files and the tracker, not through one long chat.
 
-- **A solo founder, product manager or tech lead** who builds a real product with Claude Code and has outgrown one long chat.
-- **Anyone who wants AI agents to work like a team, not like one tireless intern:** with specs, ownership, reviews and a release gate.
-- **Teams trying Spec-Driven Development with AI agents** who want a working process, not only a spec format.
-- **People who want to keep the decisions.** The agents do the work; you decide goals, priorities, money, live data and anything irreversible.
-
-It is not a framework or a library you import. It is a set of plain Markdown documents (rules, role briefs, templates), a small project generator and a Claude Code plugin. It works with any stack.
-
-## The problem it solves
-
-One agent in one long session works well for small tasks. On a real product it breaks in familiar ways:
-
-| Without a team structure | With TeamKit |
+| Role | Does |
 |---|---|
-| The agent writes the code and then judges its own work | **Nobody grades their own homework:** an independent reviewer reads every change; QA checks it on a stage |
-| Work starts from half a sentence, and you find out what was built afterwards | **Spec first:** every user-facing task has a user story and Given / When / Then acceptance criteria before work starts |
-| Changes are first tried on your real data and real users | **Nothing runs first on the live system:** a stage with a copy of the data and every outward channel switched off, and a QA role that must pass the criteria there |
-| You get walls of text, and questions arrive mixed with reports | **One question at a time, in a fixed table**, with the agent's recommendation and the options; reports are one line |
-| Context is lost when a session is compacted | **Handoffs are files, not chat:** the tracker, the changelog and the session logs carry the state |
-| The same mistake comes back next week | **A repeated mistake becomes code:** a test, a hook or a check, not another reminder |
+| **Product** | Your first contact. Strategy and positioning, market and competitor analysis, validation of your ideas, priorities and the roadmap's meaning, user-visible texts; brings you only the decisions that are yours, with a recommendation |
+| **Business analyst** | Discovery of each request: what exists, the users and edge cases, open questions; writes each task as a user story with Given / When / Then acceptance criteria and what is out of scope |
+| **CTO** | Architecture and technical decisions; adds feasibility, effort and technical notes to each task, picks and starts the right agent, keeps the tracker true, merges only verified work; writes no product code |
+| **Backend / Frontend / Mobile** | Build in their own area and branch, test first, report one commit hash; never push, never touch another role's files |
+| **Reviewer** | Independent review of every change: code, security, data, logic and flows; findings ranked by severity with a concrete failure scenario |
+| **QA** | Runs a stage (a copy of the data, nothing sent outside) and passes each task's acceptance criteria through the real API and app before it reaches you |
+
+Roles are plain Markdown briefs: add a role, give one deeper skills (a checklist, a playbook, a Claude Code skill), or drop the ones a project does not need.
 
 ## How a change flows
 
 ```mermaid
 flowchart LR
-    O([You]) -->|idea, request, complaint| P[Product agent]
-    P -->|request + meaning| A[Business analyst]
-    A -->|issue with acceptance criteria| C[CTO agent]
-    C -->|technical part, assigned| D[Backend / Frontend / Mobile]
-    D -->|branch + commit| R[Independent reviewer]
-    D -->|branch| Q[QA on the stage]
+    O([You]) --> P[Product]
+    P --> A[Business analyst]
+    A -->|issue + acceptance criteria| C[CTO]
+    C -->|assigned| D[Developer]
+    D --> R[Reviewer]
+    D --> Q[QA on a stage]
     R --> C
     Q --> C
-    C -->|merge when both pass| M[(main)]
-    M --> O
+    C -->|merge| M[(main)]
 ```
 
-1. **You talk to the product agent.** It turns an idea into a decision or a question for you, and decides the order of the work.
-2. **The business analyst writes the task.** It does the discovery (what exists, the edges, the open questions) and writes the issue: user story, Given / When / Then acceptance criteria, edge cases, out of scope.
-3. **The CTO adds the technical part and assigns.** Feasibility, effort, which role, technical notes; it starts the right agent. It writes no product code.
-4. **A developer agent builds it** on its own branch, with tests, and reports one line: the commit hash.
-5. **Two independent checks:** the reviewer reads the diff (findings ranked by severity, with a concrete failure scenario); QA runs the change on the stage against the acceptance criteria.
-6. **The CTO merges** only a verified hash, and you see the result in your own build.
-
-## The roles
-
-| Role | What it does |
-|---|---|
-| **Product** (entry role) | The session you talk to first. Strategy and positioning, priorities inside your goals, user-visible texts; approves the acceptance criteria; brings your own decisions to you with a recommendation |
-| **Business analyst** | Discovery of each request and the tasks: writes every issue (user story, acceptance criteria, edge cases, out of scope) before anyone builds |
-| **CTO** | Technical decisions: adds the technical part to each issue, assigns it, starts the agents, merges verified work. Writes no product code |
-| **Backend, Frontend, Mobile** | Build in their own folders and branches, with tests; never push |
-| **MCP** (optional) | An agent interface to the product, for users who connect their own AI agents |
-| **Code reviewer** | Independent read-only review through fixed lenses (correctness, security, data, multi-user, ...). Reports to the CTO, never to the author |
-| **QA** | Runs the stage (a second instance on a copy of the data, with messages, payments and model calls replaced) and passes each issue's criteria before it reaches your live system |
-| **Web QA** | Checks the web interface in a real browser against a test setup |
-| **Logic Checker** (optional) | Independent read-only check of the flows and criteria the analyst and product wrote: gaps, contradictions, dead ends |
-
-Not every project needs every role. The generator picks a preset by the kind and depth of the project; a small one starts with Product, Business analyst, CTO, Backend and Reviewer.
+You talk to Product; you decide goals, money, live data and anything irreversible.
 
 ## Principles
 
-- **You decide; agents recommend.** Goals, priorities, money and tokens, live data, anything legal or irreversible are yours. A question from you is never taken as approval.
-- **Spec before code (SDD).** Acceptance criteria are written before the work, the work is built and tested against them, and the reviewer and QA check it against the same spec. A risky change takes the full spec lane: a short intent note, examples written as testable criteria (EARS form for failure cases), a plan reviewed before any code, and tests written by someone other than the builder.
-- **Separation of duties.** The author does not review its own work, the tester is not the builder, and each kind of tracker change has one writer (the analyst writes the tasks, the CTO assigns and closes them).
-- **Nothing first runs on the live system.** Changes that show, store, send, spend or migrate go through the stage and QA first.
-- **Short, faithful reporting.** A failing test or a skipped step is said plainly; one line per event.
-- **Rules grow from real mistakes,** and a mistake that repeats becomes an automatic check.
-
-## How it relates to GitHub Spec Kit
-
-[Spec Kit](https://github.com/github/spec-kit) describes how one agent goes from a spec to code: constitution, specify, clarify, plan, tasks, analyze, implement. TeamKit takes that method as its base and puts it into a team:
-
-- **Taken from Spec Kit:** the constitution (here: the common team rules plus the project's non-negotiables), acceptance criteria as examples with ids, `[NEEDS CLARIFICATION]` instead of guessing, and gates that check the plan before any code is written.
-- **Added by TeamKit:** separate roles that hand work to each other through files and the tracker; an independent reviewer and a QA stage instead of self-checking; decision classes (what an agent decides, what goes to the owner); contracts at the seams between backend, app and agents; one owner who keeps the goals and the irreversible decisions.
-- **Kept lighter:** the plan and tasks live in the tracker issue, not in extra files per feature, and the full spec lane is used where the risk calls for it.
+- **Spec before code.** No task starts without acceptance criteria.
+- **Nobody grades their own homework.** An independent reviewer reads every change; QA tests it.
+- **Nothing runs first on your live system.** Changes pass on a stage with a copy of the data.
+- **You decide, agents recommend.** One question at a time, with a recommendation.
+- **A repeated mistake becomes code:** a test or a check, not another reminder.
 
 ## Get started
-
-### As a Claude Code plugin (prototype)
 
 ```bash
 claude plugin marketplace add ioncat/teamkit
 claude plugin install teamkit@teamkit
 ```
 
-Open an empty folder in Claude Code and run `/teamkit:init`. Claude acts as the product agent of the new project: it interviews you one question at a time (kind, stack, depth, tracker, language, whether the product sends messages or spends tokens), writes the project files with the generator, fills the blanks with you, and tells you which sessions to open. `/teamkit:update` (read-only for now) tells a project built with an older TeamKit what it needs to catch up. To try it without installing: `claude --plugin-dir <this folder>`.
+Open an empty folder in Claude Code and run `/teamkit:init`: a short interview, then a ready project folder and the list of sessions to open. Other ways and details: [`QUICKSTART.md`](QUICKSTART.md).
 
-### With the generator
+## More
 
-```bash
-python tools/new_project.py --out <new folder>
-```
-
-It asks the same questions and builds a folder with only the roles and rules that fit. Python 3.10 or newer. `--dry-run` shows the plan without writing anything.
-
-### By hand
-
-Copy this folder, fill the blanks marked `<<...>>`, and follow [`QUICKSTART.md`](QUICKSTART.md).
-
-## What is inside
-
-| Path | What it is |
-|---|---|
-| `docs/team/AGENT_TEAM_RULES.md` | The common rules every agent follows: reports, talking to the owner, commits, data, safety, quality gates |
-| `docs/team/roles/` | One startup brief per role |
-| `docs/team/START_PROMPTS.md` | The one-line start message of each role and the launch order |
-| `docs/team/WORK_MODES.md` | Two modes: `auto` (agents work almost alone) and `manual` (you work alongside) |
-| `docs/team/FILE_LAYOUT.md` | The folder skeleton every project shares |
-| `docs/delivery/` | Templates the project fills: its rules addendum (tracker, file ownership), per-role addenda, documentation conventions, changelog, review findings |
-| `docs/agentic-sdlc-v1.md` | The delivery method: a spec lane and a fix lane chosen by risk |
-| `CLAUDE.md` | Project instructions with blanks (stack, commands, critical rules) |
-| `skills/`, `.claude-plugin/` | The plugin: `/teamkit:init` and `/teamkit:update` |
-| `tools/new_project.py` | The project generator, with tests |
-
-## Status
-
-Young and evolving: version 0.4.1 (see [`TEAMKIT_CHANGELOG.md`](TEAMKIT_CHANGELOG.md)). It was extracted from the daily work of one owner with a team of agents on a real product, and every rule in it came from a real situation. The spec lane is defined but not yet piloted end to end; the plugin is a prototype.
-
-## Hygiene
-
-No personal data, secrets or real names in tracked files; fixtures are synthetic. Add a guard test in the first week (`tests/test_no_personal_data.py` in your own style).
-
-## Sources
-
-The methods, standards and Claude Code practices TeamKit is built on, and what each one gave: [`docs/SOURCES.md`](docs/SOURCES.md).
-
-## License
-
-MIT, see [`LICENSE`](LICENSE).
+- Roles: [`docs/team/roles/`](docs/team/roles/) · Rules: [`docs/team/AGENT_TEAM_RULES.md`](docs/team/AGENT_TEAM_RULES.md) · Method: [`docs/agentic-sdlc-v1.md`](docs/agentic-sdlc-v1.md)
+- Status: young, version 0.4.2 ([changelog](TEAMKIT_CHANGELOG.md)); extracted from daily work on a real product; the plugin is a prototype.
+- License: MIT.

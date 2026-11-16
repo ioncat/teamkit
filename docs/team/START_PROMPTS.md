@@ -15,9 +15,6 @@ The owner starts with the **Product** session: it is the entry role. When a ques
 <!-- role:code-reviewer -->
 5. **Independent Reviewer** (read-only; opened when the first risky change needs a look).
 <!-- /role -->
-<!-- role:logic-checker -->
-6. **Logic Checker** (read-only; opened by the CTO per request, in a clean export folder, before a flow or an epic is approved; closed after its report; the one role that is NOT a persistent session).
-<!-- /role -->
 
 Open them one at a time; each sends the CTO a line "ready".
 
@@ -34,7 +31,7 @@ Without these tools, the owner groups the sessions by hand: right-click a sessio
 Each role is ONE long-lived session with the role's name (`Developer`, `Code Reviewer`, ...), not one session per task.
 - The CTO sends each new task to the existing role session (`send_message` / `SendMessage`); the task id goes in the message, never in the session title.
 - Experience is kept in files as well as in the context: session logs, `.claude/memory/`, and lines in the role addendum (better: tests). That way it survives autocompaction and restarts.
-- A new session for a role is opened only when the old one has lost the thread (see "When a session loses its context"). The Logic Checker is the one exception: a fresh session per request (`roles/logic-checker.md`).
+- A new session for a role is opened only when the old one has lost the thread (see "When a session loses its context"). The one exception: for the "logic and flows" lens the CTO opens a fresh Reviewer session per request (`roles/code-reviewer.md`).
 
 ## Start messages (paste the whole line)
 
@@ -50,14 +47,13 @@ Each role is ONE long-lived session with the role's name (`Developer`, `Code Rev
 <!-- role:qa -->| QA | `QA` | `Read docs/team/roles/qa.md, then docs/delivery/roles/qa.md, and follow them.` |<!-- /role -->
 <!-- role:qa-web -->| Web QA | `Web QA` | `Read docs/team/roles/qa-web.md, then docs/delivery/roles/qa-web.md, and follow them.` |<!-- /role -->
 <!-- role:code-reviewer -->| Independent Reviewer | `Code Reviewer` | `Read docs/team/roles/code-reviewer.md, then docs/delivery/roles/code-reviewer.md, and follow them.` |<!-- /role -->
-<!-- role:logic-checker -->| Logic Checker | `Logic Checker` | `Read docs/team/roles/logic-checker.md, then docs/delivery/roles/logic-checker.md, and follow them.` |<!-- /role -->
 
 ## When a session loses its context
 
 After two failed attempts at the same thing, do not stack corrections: write a short brief of what was learned, `/clear`, and restart from it (rule 26).
 
 
-Paste the same message again, then: "Read the latest file in `.claude/sessions/` and continue." (Not for the Logic Checker: it has no session log; the CTO opens a new session with a new export folder.)
+Paste the same message again, then: "Read the latest file in `.claude/sessions/` and continue." (Not for a "logic and flows" review session: it has no session log; the CTO opens a new one with a new export folder.)
 
 ## Waking a sleeping session
 

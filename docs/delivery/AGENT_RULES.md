@@ -38,7 +38,6 @@
 <!-- role:qa -->| QA | `docs/delivery/qa/` (scenario files) and its own test harness folder; read-only otherwise |<!-- /role -->
 <!-- role:qa-web -->| Web QA | the smoke plan in `docs/delivery/`; read-only otherwise |<!-- /role -->
 <!-- role:analyst -->| Business analyst | the issues in the tracker (creates them and writes their description, rule 20), discovery notes in `docs/discovery/`; read-only otherwise |<!-- /role -->
-<!-- role:logic-checker -->| Logic Checker | `docs/delivery/LOGIC_FINDINGS.md` (the logic findings register); read-only otherwise |<!-- /role -->
 <!-- depth:mvp,product -->| Shared, each for its own entries | `docs/delivery/CHANGELOG.md` |<!-- /depth -->
 
 ## Role addenda
@@ -53,4 +52,3 @@
 <!-- role:qa-web -->- [qa-web](roles/qa-web.md)<!-- /role -->
 <!-- role:code-reviewer -->- [code-reviewer](roles/code-reviewer.md)<!-- /role -->
 <!-- role:analyst -->- [analyst](roles/analyst.md)<!-- /role -->
-<!-- role:logic-checker -->- [logic-checker](roles/logic-checker.md)<!-- /role -->
