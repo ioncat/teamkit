@@ -38,7 +38,7 @@ flowchart LR
     T -->|iterates spec by spec| MVP([MVP])
 ```
 
-1. **The Product Manager** (an agent) interviews you: what you want to build, for whom, what goes first.
+1. **The Product Manager** (an agent) interviews you: what you want to build, for whom, what problem it solves and what value it gives, what goes first.
 2. **The Business Analyst** formalises it into specs (user stories, acceptance criteria): the Spec-Driven Development documentation. The CTO may join this step early.
 3. **CTO** turns the specs into architecture and a technical plan, and starts the team.
 4. **The Delivery Team** (Backend, Frontend, QA, Reviewer) builds spec by spec, each change tested and reviewed, until the MVP.
