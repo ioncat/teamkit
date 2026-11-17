@@ -76,5 +76,5 @@ Other ways and details: [`QUICKSTART.md`](QUICKSTART.md).
 ## More
 
 - Roles: [`docs/team/roles/`](docs/team/roles/) · Rules: [`docs/team/AGENT_TEAM_RULES.md`](docs/team/AGENT_TEAM_RULES.md) · Method: [`docs/agentic-sdlc-v1.md`](docs/agentic-sdlc-v1.md)
-- Status: young, version 0.4.2 ([changelog](TEAMKIT_CHANGELOG.md)); extracted from daily work on a real product; the plugin is a prototype.
+- Status: young, version 0.4.3 ([changelog](TEAMKIT_CHANGELOG.md)); extracted from daily work on a real product; the plugin is a prototype.
 - License: MIT.

@@ -2,6 +2,13 @@
 
 What changed in each version and what a project built from TeamKit must do to update (see `docs/update-mechanism.md`). `docs/team/` is replaced whole; the steps below are for `docs/delivery/` and `CLAUDE.md`.
 
+## 0.4.3 (2026-11-17, no irreversible action without a backup)
+
+Changed in `docs/team/` (replaced by the update):
+- `AGENT_TEAM_RULES.md`: rule 32 added (placed after rule 10): before anything that cannot be undone (deleting or overwriting files, a database write or migration, `git reset --hard` / `checkout --` / `clean` / `rebase`, clearing a folder) a dated copy is made first and its path named in the report; when a copy is impossible (an outward send, a push), the action waits for the owner's word. Rule 10 is one case of it.
+
+Steps for a project: none.
+
 ## 0.4.2 (2026-11-16, the Business Analyst writes the tasks)
 
 Changed in `docs/team/` (replaced by the update):
