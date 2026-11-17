@@ -55,12 +55,23 @@ You decide goals, money, live data and anything irreversible.
 
 ## Get started
 
-```bash
-claude plugin marketplace add ioncat/teamkit
-claude plugin install teamkit@teamkit
-```
+1. Add the plugin (once, in a terminal):
 
-Open an empty folder in Claude Code and run `/teamkit:init`: a short interview, then a ready project folder and the list of sessions to open. Other ways and details: [`QUICKSTART.md`](QUICKSTART.md).
+   ```bash
+   claude plugin marketplace add ioncat/teamkit
+   claude plugin install teamkit@teamkit
+   ```
+
+2. Open an empty folder in Claude Code.
+3. Run:
+
+   ```
+   /teamkit:init
+   ```
+
+   The Product Manager interviews you, then you get a ready project folder and the list of sessions to open.
+
+Other ways and details: [`QUICKSTART.md`](QUICKSTART.md).
 
 ## More
 
