@@ -2,6 +2,51 @@
 
 For the owner (the human). Everything else in the template is written for the agents.
 
+## Ways to install
+
+| Way | Choose it when |
+|---|---|
+| 1. Plugin from GitHub | The normal way: you want the `/teamkit:` commands (init, adopt, update, help) and updates. |
+| 2. Plugin from a local folder | You want to try a version before it is published, or you work on TeamKit itself. |
+| 3. The generator directly | You do not use the plugin (scripts, CI, no Claude Code): the same safety, but no product interview; you answer questions or give an answers file. |
+| 4. Manual copy | The fallback: copy the folder and fill in the blanks by hand. |
+
+**1. Plugin from GitHub** (in a terminal, once):
+
+```
+claude plugin marketplace add ioncat/teamkit
+claude plugin install teamkit@teamkit
+```
+
+Check: `claude plugin list`. Update to a newer version: `claude plugin marketplace update teamkit`, then `claude plugin update teamkit@teamkit`, then restart Claude Code (the update applies after a restart). Uninstall: `claude plugin uninstall teamkit@teamkit`, and, if you no longer want the source either, `claude plugin marketplace remove teamkit`.
+
+**2. Plugin from a local folder:**
+
+```
+claude plugin marketplace add "<path to the teamkit folder>"
+claude plugin install teamkit@teamkit
+```
+
+Two marketplaces with the same name `teamkit` conflict: if the GitHub one is added, remove it first (`claude plugin marketplace remove teamkit`). To go back to the GitHub version, remove the local one the same way and add the GitHub one again.
+
+**3. The generator directly** (Python 3.10 or newer, nothing else to install). Always give the full path, because you run it in your own project folder:
+
+```
+python "<path to teamkit>/tools/new_project.py" --out "<project folder>"
+```
+
+| Flag | Meaning |
+|---|---|
+| `--out <folder>` | The project folder: new (empty or absent); with `--adopt`, an existing project (the root of a git repository). |
+| `--adopt` | Existing project: add TeamKit without changing anything that exists (clean git tree; new files only; a manifest and an undo). |
+| `--answers <file.json>` | Take the answers from a JSON file instead of asking questions. |
+| `--dry-run` | Print the plan and write nothing. Use it first. |
+| `--undo-adopt` | Remove exactly the files a previous `--adopt` created (from `.teamkit-adopt-manifest.txt`). |
+
+Examples: a new project, plan only: `python "<path to teamkit>/tools/new_project.py" --out "<new folder>" --dry-run`. An existing project, plan only: `python "<path to teamkit>/tools/new_project.py" --out "<project folder>" --adopt --dry-run`. Undo an adoption: `python "<path to teamkit>/tools/new_project.py" --out "<project folder>" --undo-adopt`.
+
+**4. Manual copy:** copy the `teamkit` folder into the project folder and follow "1. Prepare the folder" below.
+
 ## Create a project with the generator
 
 ```
@@ -17,6 +62,21 @@ Answers file: JSON with the keys `name`, `kind`, `stack`, `depth`, `visibility`,
 What you get: a new folder with only the roles of the preset, the rules cut to the depth, the blanks the answers can fill already filled, `project.yaml` (answers and template version), `.claude/work_mode` set to `manual`, `git init` and a first commit. What remains: the `<<...>>` blanks only the project can answer (the generator lists them): stack commands, folders per role, tracker key, what counts as personal data. Then open the Product Manager session with its start message (the Product row of `docs/team/START_PROMPTS.md`).
 
 The manual way below stays valid as a fallback.
+
+## Existing project
+
+Bring TeamKit into a project that already exists. It must be a git repository. **Adopting breaks nothing that exists**: nothing is overwritten or deleted, only files that do not exist yet are written (and only in `docs/team/`, `docs/delivery/`, `docs/discovery/README.md`, `.claude/work_mode`, `project.yaml`); `CLAUDE.md`, `README.md`, `.gitignore`, build files and CI are never touched; there is no `git init`, no branch and no commit; before and after the run every file of the repository is hashed, and if any file that existed has changed the run removes what it wrote and fails.
+
+1. Commit or stash your work, so that `git status` is empty, and **work on a new branch**: `git switch -c chore/adopt-teamkit`. If something goes wrong you throw the branch away.
+2. Dry run: `python tools/new_project.py --out <your project> --adopt --dry-run` (add `--answers answers.json` to skip the questions). It lists the **new** files, the files **kept** as they are (a TeamKit file you already have), what is **not written** by design, and where the section for your own `CLAUDE.md` goes. Nothing is written. A `REFUSED` line (for example a file where a folder is needed) means nothing would be written; fix it first.
+3. Adopt: the same command without `--dry-run`. It writes `.teamkit-adopt-manifest.txt` first (so that even a run that is killed can be undone), then the new files, and prints the one command that undoes exactly this run. It refuses to write through a symlink or a Windows junction, and Ctrl-C removes what it had written. Every file of the repository is hashed twice (before and after), so on a very large repository the run takes a while.
+4. **Look at the result before you commit:** `git status` must show only new files (all marked `??`) and `git diff` must be empty. Then commit the adoption yourself, on the branch.
+5. Undo, if you want it back: `python tools/new_project.py --out <your project> --undo-adopt` removes exactly the files in the manifest (a file you changed since is left alone) and the folders it made.
+6. Merge by hand: your `CLAUDE.md` is untouched, its TeamKit section is `docs/team/CLAUDE_TEAMKIT_SECTION.md` (copy what you want into `CLAUDE.md`, or start one from it, then delete the file); the lines the plan named for `.gitignore`; any other kept file.
+7. Fill the "File ownership" table in `docs/delivery/AGENT_RULES.md` from the real folders of the project, and the other `<<...>>` blanks the generator listed.
+8. Start in `manual` mode (`.claude/work_mode`, written only if it did not exist) with the minimal roles: Product Manager, Business Analyst, CTO, Backend, Reviewer. Then open the Product Manager session as in section 2.
+
+In Claude Code, run `/teamkit:adopt` in the project folder. It goes product first: the Product Manager reads the project and proposes its maturity stage, the user, the North Star, the success signal and the current milestone, and summarises the backlog (each item as "we see, we propose, accept or your variant"; **no agreed goal, no adoption**); then the CTO reads the technology in the light of that goal (risks, team, rule conflicts side by side, a health report and starter tasks, the team for the stage, how much documentation); only then does it run the dry run and steps 2 to 8 with you, one edit at a time on your word, and it fills `docs/delivery/PRODUCT_BRIEF.md` with what you agreed. `/teamkit:help` lists all commands.
 
 ## 0. What to know
 

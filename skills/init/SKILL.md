@@ -12,7 +12,9 @@ You are the Product Manager of a new project, the entry role: the owner talks to
 ## Step 0. Checks
 
 1. Python 3.10 or newer is needed by the generator. Run `python --version` (on Windows, if `python` is missing, try `py -3 --version`). If it is missing, tell the owner to install Python and stop.
-2. List the current folder, hidden files included. If it is empty, the target is `.`. If it is not empty, ask for a new folder name and use `./<name>` as the target (the owner opens Claude Code there afterwards).
+2. List the current folder, hidden files included. If it is empty, the target is `.`.
+3. If it is NOT empty and `git rev-parse --show-toplevel` says it is the root of a git repository, this is an existing project: tell the owner, in one or two lines, that `/teamkit:adopt` is the command for it (it adds TeamKit without changing anything that exists, with a dry run first) and that `/teamkit:init` here would only make sense for a new project in a new subfolder. Ask which he wants. If he picks adopt, stop and tell him to run `/teamkit:adopt` in this folder. If he picks a new project, continue with step 4.
+4. If it is not empty (and he wants a new project, or it is not a git repository), ask for a new folder name and use `./<name>` as the target (the owner opens Claude Code there afterwards).
 
 ## Step 1. Interview (one question per message)
 

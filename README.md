@@ -71,10 +71,64 @@ You decide goals, money, live data and anything irreversible.
 
    The Product Manager interviews you, then you get a ready project folder and the list of sessions to open.
 
-Other ways and details: [`QUICKSTART.md`](QUICKSTART.md).
+Four commands:
+
+| Command | For |
+|---|---|
+| `/teamkit:init` | a **new project**: the Product Manager interviews you and generates the project |
+| `/teamkit:adopt` | an **existing git project**, product first: the Product Manager agrees the stage, goal and North Star with you (no goal, no adoption), the CTO checks the technology, then TeamKit is added without changing anything that exists (new files only, a manifest and an undo; work on a new branch) |
+| `/teamkit:update` | a project built from TeamKit: lists what the newer TeamKit rules change (read-only) |
+| `/teamkit:help` | this list, the generator's flags and where to read more |
+
+Other ways and details: [`QUICKSTART.md`](QUICKSTART.md). Already have a project? Run `/teamkit:adopt` in it, or `python tools/new_project.py --out <project> --adopt --dry-run` (see "Existing project" in the quickstart): nothing that exists is changed.
+
+## Ways to install
+
+| Way | Choose it when |
+|---|---|
+| 1. Plugin from GitHub | The normal way: you want the `/teamkit:` commands (init, adopt, update, help) and updates. |
+| 2. Plugin from a local folder | You want to try a version before it is published, or you work on TeamKit itself. |
+| 3. The generator directly | You do not use the plugin (scripts, CI, no Claude Code): the same safety, but no product interview; you answer questions or give an answers file. |
+| 4. Manual copy | The fallback: copy the folder and fill in the blanks by hand. |
+
+**1. Plugin from GitHub** (in a terminal, once):
+
+```
+claude plugin marketplace add ioncat/teamkit
+claude plugin install teamkit@teamkit
+```
+
+Check: `claude plugin list`. Update to a newer version: `claude plugin marketplace update teamkit`, then `claude plugin update teamkit@teamkit`, then restart Claude Code (the update applies after a restart). Uninstall: `claude plugin uninstall teamkit@teamkit`, and, if you no longer want the source either, `claude plugin marketplace remove teamkit`.
+
+**2. Plugin from a local folder:**
+
+```
+claude plugin marketplace add "<path to the teamkit folder>"
+claude plugin install teamkit@teamkit
+```
+
+Two marketplaces with the same name `teamkit` conflict: if the GitHub one is added, remove it first (`claude plugin marketplace remove teamkit`). To go back to the GitHub version, remove the local one the same way and add the GitHub one again.
+
+**3. The generator directly** (Python 3.10 or newer, nothing else to install). Always give the full path, because you run it in your own project folder:
+
+```
+python "<path to teamkit>/tools/new_project.py" --out "<project folder>"
+```
+
+| Flag | Meaning |
+|---|---|
+| `--out <folder>` | The project folder: new (empty or absent); with `--adopt`, an existing project (the root of a git repository). |
+| `--adopt` | Existing project: add TeamKit without changing anything that exists (clean git tree; new files only; a manifest and an undo). |
+| `--answers <file.json>` | Take the answers from a JSON file instead of asking questions. |
+| `--dry-run` | Print the plan and write nothing. Use it first. |
+| `--undo-adopt` | Remove exactly the files a previous `--adopt` created (from `.teamkit-adopt-manifest.txt`). |
+
+Examples: a new project, plan only: `python "<path to teamkit>/tools/new_project.py" --out "<new folder>" --dry-run`. An existing project, plan only: `python "<path to teamkit>/tools/new_project.py" --out "<project folder>" --adopt --dry-run`. Undo an adoption: `python "<path to teamkit>/tools/new_project.py" --out "<project folder>" --undo-adopt`.
+
+**4. Manual copy:** copy the `teamkit` folder into the project folder and follow "1. Prepare the folder" in [`QUICKSTART.md`](QUICKSTART.md).
 
 ## More
 
 - Roles: [`docs/team/roles/`](docs/team/roles/) · Rules: [`docs/team/AGENT_TEAM_RULES.md`](docs/team/AGENT_TEAM_RULES.md) · Method: [`docs/agentic-sdlc-v1.md`](docs/agentic-sdlc-v1.md)
-- Status: young, version 0.4.3 ([changelog](TEAMKIT_CHANGELOG.md)); extracted from daily work on a real product; the plugin is a prototype.
+- Status: young, version 0.4.4 ([changelog](TEAMKIT_CHANGELOG.md)); extracted from daily work on a real product; the plugin is a prototype.
 - License: MIT.
